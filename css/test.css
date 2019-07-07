@@ -1,6 +1,47 @@
+html, body{
+	height: 100%;
+}
+/*设置背景样式*/
 body{
+	display:inline-block;
 	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center center;
+	background-size: 100% 100%;
+	background-attachment: fixed;
+}
 
+/*头像样式*/
+.icon{
+	width: 140px;
+	height: 140px;
+	border-radius: 50%;
+	background-repeat: no-repeat;
+	-webkit-border-radius: 100px;
+	-moz-border-radius: 100px;
+	overflow: hidden;
+	position: fixed;
+	left: 50%;
+	top: 30%;
+	margin-left: -70px;
+	animation: icon_animation 3s infinite alternate;
+	animation-timing-function: ease-in-out;
+	-webkit-transition: transform 3S;
+}
+
+/*网站图标样式*/
+.title{
+	background-repeat: no-repeat;
+	position: fixed;
+	left: 50px;
+	top: 20px;
+}
+
+/*头像动画*/
+@keyframes icon_animation{
+	0% {top: 30%;}
+	50% {top: 33%;}
+	100% {top: 30%;}
+}
+
+.icon:hover{
+	transform: rotate(360deg);
 }
