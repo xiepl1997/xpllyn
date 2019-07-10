@@ -20,7 +20,7 @@ body{
 	overflow: hidden;
 	position: fixed;
 	left: 50%;
-	top: 30%;
+	top: 27%;
 	margin-left: -70px;
 	animation: icon_animation 3s infinite alternate;
 	animation-timing-function: ease-in-out;
@@ -37,11 +37,12 @@ body{
 
 /*头像动画*/
 @keyframes icon_animation{
-	0% {top: 30%;}
-	50% {top: 33%;}
-	100% {top: 30%;}
+	0% {top: 27%;}
+	50% {top: 30%;}
+	100% {top: 27%;}
 }
 
+/*鼠标悬停头像旋转*/
 .icon:hover{
 	transform: rotate(360deg);
 }
