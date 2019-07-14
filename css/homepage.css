@@ -1,0 +1,20 @@
+/*背景和首页文字样式*/
+.modbg{
+	background: url("../images/lynbg.jpg");
+	background-position: center center;
+	background-size: cover;
+	position: fixed;
+	width: 100%;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.gradient{
+	left: 0;
+	opacity: 0.5;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
