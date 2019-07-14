@@ -1,3 +1,4 @@
+
 html, body{
 	height: 100%;
 }
@@ -7,6 +8,7 @@ body{
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	background-attachment: fixed;
+	padding-top: 40px;
 }
 
 /*头像样式*/
