@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1" /> 
 	<title>xpllyn个人小站</title>
-	<link rel="stylesheet" type="text/css" href="css/test.css">
+	<!-- <link rel="stylesheet" type="text/css" href="css/test.css"> -->
 	<script type="text/javascript">
 		title_animation();
 		load_animation();
@@ -65,11 +65,6 @@
 								</ul>
 							</li>
 						</ul>
-						<form class="navbar-form navbar-left" role="search">
-							<div class="form-group">
-								<input type="text" class="form-control" />
-							</div> <button type="submit" class="btn btn-default">Submit</button>
-						</form>
 						<ul class="nav navbar-nav navbar-right">
 							<li>
 								 <a href="#">关于</a>
@@ -93,26 +88,50 @@
 									</li>
 								</ul>
 							</li>
+							<form class="navbar-form navbar-right" role="search">
+							<div class="form-group">
+								<input type="text" class="form-control" />
+							</div> <button type="submit" class="btn btn-default">搜索本站</button>
+						</form>
 						</ul>
 					</div>
 					
 				</nav>
-				<div>
-					<!-- <div>
-						<img class="icon" src="images/icon150.jpg">
-					</div> -->
-					<div class="gradient">
-						<div class="container ">
-							<h1>你好</h1>
-						</div>
-					</div>
+				<div class="page-header">
+					<h1 class="header-words">
+						欢迎来到<span style="color: tomato">xpllyn</span>小站<small style="color: white">&nbsp;&nbsp;谢沛良and刘于楠的小站</small>
+					</h1>
 				</div>
+
+				<!-- 首页介绍巨幕 -->
+				<div class="jumbotron" style="opacity: 0.6">
+					<h2 class="header-words">
+						Introduction
+					</h2>
+					<p style="text-indent: 2em; font-family: 'Yapi SC';">
+						搭建一个个人网站的想法已经酝酿很久了，趁着19年毕业后有着难得的空闲时间，于是乎就想着把这个想法给落实了。
+					</p>
+					<p style="text-indent: 2em; font-family: 'Yapi SC';">
+						这个小站被我称为 &lceil;<span style="font-family: 'STHupo';">谢沛良and刘于楠的小站</span>&rfloor;， 是因为这个小站是由我两一起<span style="font-size: 11px">（她看着）</span>搭建的，一起维护的。用wordpress搭了个blog，在这个小天地里我可以做我想做的事情，记录我想记录的事情，这真是个有意义的事情的呢 <span style="font-size: 11px;">（其实是闲不住，就想写代码，大概码农命吧）</span>。
+					</p>
+					<p style="text-indent: 2em; font-family: 'Yapi SC';">
+						搭建本站，前端bootstrap、三剑客+jquery，后端java、ssh，数据库mysql。服务器用阿里云轻量应用服务器，项目用tomcat部署上线。代码已挂在gayhub上<a href="https://github.com/xiepl1997/xpllyn"><small><strong>(点击转到)</strong></small></a>。跪求各位老铁点点关注，双击star、fork一下，感激不尽~
+					</p>
+					<p style="float: right;">2019.7.15</p>
+				</div>
+				<hr>
+
+				<!-- 访客地图 -->
+				<p>
+					<script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5ijhiniaa36&amp;m=7&amp;c=ff0000&amp;cr1=ffffff&amp;f=ubuntu&amp;l=49&amp;v0=20" async="async"></script>
+				</p>
 				
 			</div>
 		</div>
 	</div>
 
-
+	<!-- javascript -->
+	<!-- jquery需要放在bootstrap之前 -->
 	<script type="text/javascript" src="js/JQuery/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/functions.js"></script>
