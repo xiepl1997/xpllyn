@@ -20,9 +20,11 @@ body{
 	-webkit-border-radius: 100px;
 	-moz-border-radius: 100px;
 	overflow: hidden;
-	position: fixed;
+	/*position: fixed;*/
+	position: relative;
 	left: 50%;
 	top: 27%;
+	padding-bottom: 100px;
 	margin-left: -70px;
 	animation: icon_animation 3s infinite alternate;
 	animation-timing-function: ease-in-out;
