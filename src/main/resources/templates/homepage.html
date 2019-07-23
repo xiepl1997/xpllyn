@@ -14,6 +14,7 @@
 
 	<link rel="stylesheet" type="text/css" href="css/homepage.css">
 	<link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="modbg" style="padding-top: 70px;padding-bottom: -1000px">
 <!-- <div class="icon" id="icons">
@@ -67,12 +68,12 @@
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li>
-								 <a href="#">关于</a>
+								 <a id="modal-301161" href="#modal-container-301161" role="button" class="btn" data-toggle="modal">关于</a>
 							</li>
 							<form class="navbar-form navbar-right" role="search">
 							<div class="form-group">
 								<input type="text" class="form-control" />
-							</div> <button type="submit" class="btn btn-default">搜索本站</button>
+							</div> <button type="submit" class="btn btn-default btn-info">Search</button>
 						</form>
 						</ul>
 					</div>
@@ -96,7 +97,7 @@
 						这个小站被我称为 &lceil;<span style="font-family: 'STHupo';">谢沛良and刘于楠的小站</span>&rfloor;， 是因为这个小站是由我两一起<span style="font-size: 11px">（她看着）</span>搭建的，一起维护的。用wordpress搭了个blog，在这个小天地里我可以做我想做的事情，记录我想记录的事情，这真是个有意义的事情的呢 <span style="font-size: 11px;">（其实是闲不住，就想写代码，大概码农命吧）</span>。
 					</p>
 					<p style="text-indent: 2em; font-family: 'Yapi SC';">
-						搭建本站，前端bootstrap，后端springboot、springmvc+mybatis，数据库mysql。服务器用阿里云轻量应用服务器，项目用tomcat部署上线。代码已挂在gayhub上<a href="https://github.com/xiepl1997/xpllyn"><small><strong>(点击转到)</strong></small></a>。跪求各位老铁点点关注，双击star、fork一下，感激不尽~
+						搭建本站，前端bootstrap、三剑客+jquery，后端springboot、springmvc+mybatis，数据库mysql。服务器用阿里云轻量应用服务器，项目用tomcat部署上线。代码已挂在gayhub上<a href="https://github.com/xiepl1997/xpllyn"><small><strong>(点击转到)</strong></small></a>。跪求各位老铁点点关注，双击star、fork一下，感激不尽~
 					</p>
 					<p style="float: right;">2019.7.15</p>
 				</div>
@@ -106,7 +107,7 @@
 			<!-- ebok下载 -->
 			<div class="col-md-8 column" >
 				<div class="list-group pre-scrollable" style="height: 100%;width: 100%">
-					<a href="#" class="list-group-item active"><h4><strong>ebook download</strong></h4></a>
+					<a href="#" class="list-group-item active"><h4><strong>资源下载</strong></h4></a>
 					<a class="list-group-item">
 						List header
 					</a>
@@ -215,17 +216,51 @@
 				</div> <a class="left carousel-control" href="#carousel-283218" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-283218" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 			</div>
 			</div>
+
+			<!-- <a id="modal-301161" href="#modal-container-301161" role="button" class="btn" data-toggle="modal">触发遮罩窗体</a> -->
+			
+			<div class="modal fade" id="modal-container-301161" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h4 class="modal-title" id="myModalLabel">
+								关于
+							</h4>
+						</div>
+						<div class="modal-body">
+						</div>
+						<div class="modal-footer">
+							 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> <button type="button" class="btn btn-primary">保存</button>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+
 		</div>
 
 	</div>
 
-	<footer class="footer navbar-fix-bottom navbar-inverse" style="margin-top: 50px;padding-top: 50px;padding-bottom: 80px">
+	<footer class="footer" style="margin-top: 80px;padding-top: 28px;padding-bottom: 10px; background-color: rgba(0,0,0,0.3);">
 		<div class="container">
-			<div class="row clearfix">
-			<div class="col-md-12 column" >
-				<div class="icon"><img src="images/icon150.jpg"></div>
+			<div class="col-md-4 column" style="border-right: 1px solid white;">
+				<div style="color: white;font-family:Hanken;">
+					<i class="fa fa-weixin fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;xplxplxplxplxpl<br><br>
+					<i class="fa fa-qq fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;836978965<br><br>
+					<i class="fa fa-weibo fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;IT不挨踢hia<br><br>
+					<i class="fa fa-twitter fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;@peiliang1997<br><br>
+					<i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;xiepl1997@gmail.com&nbsp;/&nbsp;xiepl1997@163.com<br><br>
+				</div>
 			</div>
-		</div>
+			<div class="col-md-8 column" style="text-align: center;">
+				<div style="margin-top: 80px;font-family: '宋体';color: white;">
+					<img src="images/newtitle.png"><br><br>
+					<p>Designed and developed by Peiliang.</p>
+					<p>Copyright © 2019-2022 xpllyn.com. All Rights Reserved.</p>
+				</div>
+			</div>
 		</div>
 	</footer>
 
