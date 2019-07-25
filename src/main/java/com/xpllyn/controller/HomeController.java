@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @EnableAutoConfiguration
 public class HomeController {
 
-    @RequestMapping("/homepage")
+    //首页
+    @RequestMapping("/")
     public String home(){
         return "homepage";
     }

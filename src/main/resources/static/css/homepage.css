@@ -66,3 +66,18 @@ body{
 	/*首选字体琥珀*/
 	font-family: "STHupo","Microsoft YaHei","宋体",sans-serif;
 }
+
+/*留言板样式*/
+.talk{
+	font-family: "宋体";
+	margin-top: 40px;
+}
+
+.message-content{
+	height: 350px;
+	width: 100%;
+	padding-top: 30px;
+	padding-left: 15px;
+	border-radius: 10px;
+	font-size: large;
+}
