@@ -81,3 +81,33 @@ body{
 	border-radius: 10px;
 	font-size: large;
 }
+
+/*电子书下载和近期的文章list-group滚动条设置*/
+#scroll-2{
+        width:200px;
+        height:200px;
+        overflow:auto;
+	margin-bottom: 20px;
+}
+#scroll-2 div{
+	width:400px;
+	height:400px;
+}
+#scroll-2::-webkit-scrollbar{
+	width:4px;
+	height:4px;
+}
+#scroll-2::-webkit-scrollbar-track{
+	background: #f6f6f6;
+	border-radius:2px;
+}
+#scroll-2::-webkit-scrollbar-thumb{
+	background: #aaa;
+	border-radius:2px;
+}
+#scroll-2::-webkit-scrollbar-thumb:hover{
+	background: #747474;
+}
+#scroll-2::-webkit-scrollbar-corner{
+	background: #f6f6f6;
+}
