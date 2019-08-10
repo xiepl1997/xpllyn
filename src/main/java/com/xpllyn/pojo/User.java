@@ -1,97 +1,88 @@
 package com.xpllyn.pojo;
 
 /**
- * User pojo created at 2019/7/22 by Peiliang
+ * User pojo created at 2019/7/22 by Peiliang Xie
  */
 public class User {
-    private String id;
-    private String password;
-    private String last_login;
-    private String username;
-    private String sex;
-    private String phonenumber;
-    private String email;
-    private String address;
-    private String ip;
-    private String position;
+    private String user_id;
+    private String user_password;
+    private String user_last_login;
+    private String user_name;
+    private String user_sex;
+    private String user_phonenumber;
+    private String user_email;
+    private String user_address;
+    private String user_ip;
 
-    public void setId(String id) {
-        this.id = id;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setPassword(String password){
-        this.password = password;
+    public String getUser_password() {
+        return user_password;
     }
 
-    public void setLast_login(String last_login) {
-        this.last_login = last_login;
+    public String getUser_last_login() {
+        return user_last_login;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public String getUser_sex() {
+        return user_sex;
     }
 
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
+    public String getUser_phonenumber() {
+        return user_phonenumber;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getUser_email() {
+        return user_email;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public String getUser_address() {
+        return user_address;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
+    public String getUser_ip() {
+        return user_ip;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
-    public String getId() {
-        return id;
+    public void setUser_password(String user_password) {
+        this.user_password = user_password;
     }
 
-    public String getPassword() {
-        return password;
+    public void setUser_last_login(String user_last_login) {
+        this.user_last_login = user_last_login;
     }
 
-    public String getLast_login() {
-        return last_login;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
-    public String getUsername() {
-        return username;
+    public void setUser_sex(String user_sex) {
+        this.user_sex = user_sex;
     }
 
-    public String getSex() {
-        return sex;
+    public void setUser_phonenumber(String user_phonenumber) {
+        this.user_phonenumber = user_phonenumber;
     }
 
-    public String getPhonenumber() {
-        return phonenumber;
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
     }
 
-    public String getEmail() {
-        return email;
+    public void setUser_address(String user_address) {
+        this.user_address = user_address;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public String getPosition() {
-        return position;
+    public void setUser_ip(String user_ip) {
+        this.user_ip = user_ip;
     }
 }
