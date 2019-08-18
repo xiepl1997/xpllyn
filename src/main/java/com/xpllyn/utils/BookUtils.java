@@ -9,6 +9,10 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * book工具类
+ * created by xiepl1997 at 2019-8-17
+ */
 @Component
 public class BookUtils {
 
