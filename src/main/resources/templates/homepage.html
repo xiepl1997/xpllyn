@@ -83,31 +83,31 @@
 		<div class="row clearfix">
 			<!-- ebok下载 -->
 			<div class="col-md-8 column" >
-				<div class="list-group pre-scrollable" style="height: 100%;width: 100%;border-radius: 10px;">
-					<a href="#" class="list-group-item active"><h4><strong>资源下载<small style="color: white">（点击下载）</small></strong></h4></a>
+				<a href="#" class="list-group-item active" style="border-radius:15px;"><h4><strong>资源下载<small style="color: white">（点击下载）</small></strong></h4></a>
+				<div class="list-group pre-scrollable" style="height: 100%;width: 100%;border-radius: 15px;border-bottom: 1px solid gray">
 					<span th:each="book:${bookList}">
-						<a class="list-group-item" th:text="${book?.name}" style="cursor:pointer;" th:href="@{'/book/'+${book?.name}}" th:download="${book?.name}"></a>
+						<a class="list-group-item" th:text="${book?.name}" style="cursor:pointer;border: 1px solid gray" th:href="@{'/book/'+${book?.name}}" th:download="${book?.name}"></a>
 					</span>
 				</div>
 			</div>
 
 			<!-- 访客地图 -->
 			<div class="col-md-4 column">
-
+				<div class="list-group-item list-group-item-success" style="border-radius:15px;"><h4><strong>访客地图</strong></h4> </div>
 				<div style="background-color: rgba(0,0,0,0.3);border-radius: 10px;">
 					<script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5ijhiniaa36&amp;m=7&amp;c=ff0000&amp;cr1=ffffff&amp;f=ubuntu&amp;l=49&amp;v0=20" async="async"></script>
 				</div>
 			</div>
 		</div>
 
-		<div class="row clearfix">
+		<div class="row clearfix" style="padding-top: 15px;">
 			<!-- 最近文章列表 -->
 			<div class="col-md-12 column" >
-					<div class="list-group pre-scrollable" style="height: 100%;width: 100%;border-radius: 10px">
-					<a href="#" class="list-group-item active"><h4><strong>最近的文章</strong></h4></a>
+				<a href="#" class="list-group-item list-group-item-info" style="border-radius: 15px;"><h4><strong>最近的文章</strong></h4></a>
+					<div class="list-group pre-scrollable" style="height: 100%;width: 100%;border-radius: 15px;border-bottom: 1px solid gray">
 					<!-- 显示最近6篇 -->
 					<span th:each="i:${#numbers.sequence(0,blogCount-1)}">
-						<a class="list-group-item" style="cursor: pointer;" th:href="${blogList[i]?.url}">
+						<a class="list-group-item" style="cursor: pointer;border: 1px solid gray" th:href="${blogList[i]?.url}">
 							<h4 class="list-group-item-heading" th:text="${blogList[i]?.title}"></h4>
 							<p class="list-group-item-text" th:text="${blogList[i]?.time}"></p>
 						</a>
@@ -188,10 +188,10 @@
 			<div class="col-md-8 column">
 				<div class="talk">
 					<h2 style="color: white"><strong>新的留言</strong></h2>
-					<textarea class="message-content" placeholder="有什么想对我说的？"></textarea>
+					<textarea id="message" class="message-content" placeholder="有什么想对我说的？"></textarea>
 				</div>
 				<p style="font-size: large;font-family: '宋体';color: white"><strong>留言会公开显示，勿在留言中留下私人联系方式等隐私信息，谨防诈骗。如果您不想公开发布留言，也可以发送邮件到xiepl1997@gmail.com或xiepl1997@163.com与我联系。</strong></p>
-				<button type="button" class="btn btn-info btn-lg btn-center" style="margin: 0 auto；">完成</button>
+				<button id="submit_message" type="button" class="btn btn-info btn-lg btn-center" style="margin: 0 auto；">完成</button>
 			</div>
 			<div class="col-md-2 column"></div>
 			

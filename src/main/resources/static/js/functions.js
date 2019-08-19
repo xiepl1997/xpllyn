@@ -29,3 +29,11 @@ function title_animation(){
 		});
 	});
 }
+
+//提交留言按钮
+$(document).ready(function() {
+	$("#submit_message").click(function(event) {
+		if($("#message").val().trim() == '')
+			alert("未填写留言哦~");
+	});
+});
