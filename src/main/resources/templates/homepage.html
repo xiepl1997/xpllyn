@@ -6,10 +6,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" /> 
 	<title>xpllyn个人小站</title>
 	<!-- <link rel="stylesheet" type="text/css" href="css/test.css"> -->
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		title_animation();
 		load_animation();
-	</script>
+	</script> -->
 
 
 	<link rel="stylesheet" type="text/css" href="css/homepage.css">
@@ -183,18 +183,34 @@
 				</div>
 				
 			</div>
-			
-			<div class="col-md-2 column"></div>
-			<div class="col-md-8 column">
-				<div class="talk">
-					<h2 style="color: white"><strong>新的留言</strong></h2>
-					<textarea id="message" class="message-content" placeholder="有什么想对我说的？"></textarea>
-				</div>
-				<p style="font-size: large;font-family: '宋体';color: white"><strong>留言会公开显示，勿在留言中留下私人联系方式等隐私信息，谨防诈骗。如果您不想公开发布留言，也可以发送邮件到xiepl1997@gmail.com或xiepl1997@163.com与我联系。</strong></p>
-				<button id="submit_message" type="button" class="btn btn-info btn-lg btn-center" style="margin: 0 auto；">完成</button>
-			</div>
-			<div class="col-md-2 column"></div>
-			
+
+				<div class="col-md-2 column"></div>
+					<div class="col-md-8 column">
+
+						<!-- 留言列表 -->
+						<div class="message_list_title">
+							<a class="list-group-item list-group-item-danger" style="border-radius: 15px;"><h4><strong>留言列表</strong></h4></a>
+						</div>
+						<div id="message_group" class="list-group pre-scrollable" style="height: 100%;width: 100%;border-radius: 15px;border-bottom: 1px solid gray">
+							<span th:each="i:${#numbers.sequence(0,messageCount-1)}">
+								<a class="list-group-item" style="cursor: pointer;border: 1px solid gray">
+									<p class="list-group-item-text" style="font-size: small;" th:text="${messageList[i]?.name}"></p>
+									<p class="list-group-item-text" style="font-weight: bold;margin-left: 25px;" th:text="${messageList[i]?.content}"></p>
+									<p class="list-group-item-text" style="font-size: x-small;" th:text="${messageList[i]?.time}"></p>
+								</a>
+							</span>
+						</div>
+
+						<!-- 新留言 -->
+						<div class="talk">
+							<h2 style="color: white"><strong>新的留言</strong></h2>
+							<textarea id="message" class="message-content" placeholder="有什么想对我说的？"></textarea>
+						</div>
+						<p style="font-size: large;font-family: '宋体';color: white"><strong>留言会公开显示，勿在留言中留下私人联系方式等隐私信息，谨防诈骗。如果您不想公开发布留言，也可以发送邮件到xiepl1997@gmail.com或xiepl1997@163.com与我联系。</strong></p>
+						<button id="submit_message" type="button" class="btn btn-info btn-lg btn-center" style="margin: 0 auto；">完成</button>
+					</div>
+				<div class="col-md-2 column"></div>
+
 		</div>
 
 	</div>

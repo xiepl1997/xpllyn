@@ -26,9 +26,7 @@ public class BlogUtils {
      */
     public List getBlogInfo(){
 
-        if(source == null){
-            source = getPageSource();
-        }
+        source = getPageSource();
 
         List<Blog> BlogList = new ArrayList<>();
 

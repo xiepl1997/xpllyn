@@ -73,6 +73,11 @@ body{
 	margin-top: 40px;
 }
 
+/*留言列表样式*/
+.message_list_title{
+	margin-top: 40px;
+}
+
 .message-content{
 	height: 350px;
 	width: 100%;

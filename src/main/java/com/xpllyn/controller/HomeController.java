@@ -1,6 +1,7 @@
 package com.xpllyn.controller;
 
-import com.xpllyn.pojo.Blog;
+import com.xpllyn.pojo.Message;
+import com.xpllyn.service.MessageService;
 import com.xpllyn.utils.BlogUtils;
 import com.xpllyn.utils.BookUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class HomeController {
 
     @Autowired
     BlogUtils blogUtils = null;
+
+    @Autowired
+    MessageService messageService = null;
 
     //首页
     @RequestMapping("/")
@@ -48,9 +52,18 @@ public class HomeController {
             blogCount = 6;
         }
 
+        //获取最近8条评论
+        List<Message> messageList = messageService.getAllMessages();
+        int messageCount = messageList.size();
+        if(messageCount > 8){
+            messageCount = 8;
+        }
+
         mv.addObject("blogCount",blogCount);
         mv.addObject("blogList",blogList);
         mv.addObject("bookList", bookList);
+        mv.addObject("messageList",messageList);
+        mv.addObject("messageCount" ,messageCount);
         mv.setViewName("homepage");
         return mv;
     }
