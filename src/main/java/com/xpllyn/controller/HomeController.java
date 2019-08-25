@@ -34,7 +34,8 @@ public class HomeController {
         //获取书本
         List bookList = null;
         try {
-            bookList = bookUtil.getFileName("classpath:static/book");
+            //bookList = bookUtil.getFileName("classpath:static/book");
+            bookList = bookUtil.getFileName("/opt/book");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

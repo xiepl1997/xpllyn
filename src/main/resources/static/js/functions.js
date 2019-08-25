@@ -30,8 +30,8 @@
 // 	});
 // }
 
-//提交留言按钮 by xiepl1997 at 2019-8-24
 $(document).ready(function() {
+    //提交留言按钮 by xiepl1997 at 2019-8-24
 	$("#submit_message").click(function(event) {
 		if($("#message").val().trim() == ''){
 			alert("未填写留言哦~");
@@ -66,15 +66,20 @@ $(document).ready(function() {
 						// 	"</span>";
 						// $("#message_group").innerHTML(htmls);
 						var htmls = "";
-						for(var i = 0; i < messageList.length; i++){
+						var count = messageList.length;
+						if(count > 8){
+						    count = 8;
+                        }
+						for(var i = 0; i < count; i++){
 							htmls += "<a class=\"list-group-item\" style=\"cursor: pointer;border: 1px solid gray\">";
 							htmls += "<p class=\"list-group-item-text\" style=\"font-size: small;\">" + messageList[i].name + "</p>";
 							htmls += "<p class=\"list-group-item-text\" style=\"font-weight: bold;margin-left: 25px;\">" + messageList[i].content + "</p>";
 							htmls += "<p class=\"list-group-item-text\" style=\"font-size: x-small;\">" + messageList[i].time + "</p>";
 							htmls += "</a>";
 						}
-						htmls += "";
+						htmls += "<a id=\"show_all_message\" class=\"list-group-item\" style=\"cursor: pointer;text-align: center;\" href=\"#modal-container-969735\" data-toggle=\"modal\"><h5>……More……</h5></a>";
 						$("#message_group").html(htmls);
+						alert("感谢您的留言！");
 					}
 				}
 			})
@@ -83,4 +88,32 @@ $(document).ready(function() {
 
 		}
 	});
+
+	//显示全部留言 by xiepl1997 at 2019-8-25
+    $("#show_all_message").click(function () {
+        $.ajax({
+            url: './getAllMessage',
+            type: 'GET',
+            dataType: 'json',
+            success: function (messageList) {
+                var htmls = "";
+                for(var i = 0; i < messageList.length; i++){
+                    if(i%2 == 0)
+                        htmls += "<a class=\"list-group-item\" style=\"cursor: pointer;border-radius:15px;\">";
+                    else
+                        htmls += "<a class=\"list-group-item\" style=\"cursor: pointer;border-radius:15px;background-color: silver;\">";
+                    htmls += "<p class=\"list-group-item-text\" style=\"font-size: small;\">" + messageList[i].name + "</p>";
+                    htmls += "<p class=\"list-group-item-text\" style=\"font-weight: bold;margin-left: 25px;\">" + messageList[i].content + "</p>";
+                    htmls += "<p class=\"list-group-item-text\" style=\"font-size: x-small;\">" + messageList[i].time + "</p>";
+                    htmls += "</a>";
+                }
+                $("#all_message").html(htmls);
+                return false;//return false 使 href 链接也生效
+            }
+        })
+    })
 });
+
+
+
+

@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1" /> 
-	<title>xpllyn个人小站</title>
+	<title>谢沛良的个人网站</title>
 	<!-- <link rel="stylesheet" type="text/css" href="css/test.css"> -->
 	<!-- <script type="text/javascript">
 		title_animation();
@@ -116,7 +116,7 @@
 				</div>
 
 				<!-- 图片轮播 -->
-				<div class="carousel slide" id="carousel-283218">
+				<div class="carousel slide" id="carousel-283218" style="border-radius: 15px;overflow: hidden">
 				<ol class="carousel-indicators">
 					<li class="active" data-slide-to="0" data-target="#carousel-283218">
 					</li>
@@ -124,40 +124,21 @@
 					</li>
 					<li data-slide-to="2" data-target="#carousel-283218">
 					</li>
+					<li data-slide-to="3" data-target="#carousel-283218">
+					</li>
 				</ol>
 				<div class="carousel-inner">
 					<div class="item active">
-						<img alt="" src="http://cdn.ibootstrap.cn/lorempixel.com/1600/500/sports/1/default.jpg" />
-						<div class="carousel-caption">
-							<h4>
-								First Thumbnail label
-							</h4>
-							<p>
-								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-							</p>
-						</div>
+						<img alt="" src="images/lynbg1.jpg" />
 					</div>
 					<div class="item">
-						<img alt="" src="http://cdn.ibootstrap.cn/lorempixel.com/1600/500/sports/2/default.jpg" />
-						<div class="carousel-caption">
-							<h4>
-								Second Thumbnail label
-							</h4>
-							<p>
-								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-							</p>
-						</div>
+						<img alt="" src="images/pic1.jpg" />
 					</div>
 					<div class="item">
-						<img alt="" src="http://cdn.ibootstrap.cn/lorempixel.com/1600/500/sports/3/default.jpg" />
-						<div class="carousel-caption">
-							<h4>
-								Third Thumbnail label
-							</h4>
-							<p>
-								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-							</p>
-						</div>
+						<img alt="" src="images/pic5.jpg" />
+					</div>
+					<div class="item">
+						<img alt="" src="images/pic2.jpg" />
 					</div>
 				</div> <a class="left carousel-control" href="#carousel-283218" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-283218" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
 			</div>
@@ -199,6 +180,7 @@
 									<p class="list-group-item-text" style="font-size: x-small;" th:text="${messageList[i]?.time}"></p>
 								</a>
 							</span>
+							<a id="show_all_message" class="list-group-item" style="cursor: pointer;text-align: center;" href="#modal-container-969735" data-toggle="modal"><h5>……More……</h5></a>
 						</div>
 
 						<!-- 新留言 -->
@@ -207,9 +189,30 @@
 							<textarea id="message" class="message-content" placeholder="有什么想对我说的？"></textarea>
 						</div>
 						<p style="font-size: large;font-family: '宋体';color: white"><strong>留言会公开显示，勿在留言中留下私人联系方式等隐私信息，谨防诈骗。如果您不想公开发布留言，也可以发送邮件到xiepl1997@gmail.com或xiepl1997@163.com与我联系。</strong></p>
-						<button id="submit_message" type="button" class="btn btn-info btn-lg btn-center" style="margin: 0 auto；">完成</button>
+						<button id="submit_message" type="button" class="btn btn-info btn-lg btn-center" style="margin: 0 auto;">完成</button>
 					</div>
 				<div class="col-md-2 column"></div>
+
+				<div class="modal fade" id="modal-container-969735" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h4 class="modal-title" id="myModalLabel1">
+									全部留言
+								</h4>
+							</div>
+							<div class="modal-body">
+								<div id="all_message" class="list-group pre-scrollable" style="height: 100%;width: 100%;border-radius: 15px;">
+								</div>
+							</div>
+							<div class="modal-footer">
+								 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							</div>
+						</div>
+						
+					</div>
+				</div>
 
 		</div>
 

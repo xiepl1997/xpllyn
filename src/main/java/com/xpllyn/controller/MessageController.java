@@ -7,6 +7,7 @@ import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,6 +38,14 @@ public class MessageController {
         List<Message> messageList = messageService.getAllMessages();
         //String messageList = JSONArray.fromObject(mList).toString();
         return messageList;
+    }
+
+    @GetMapping("/getAllMessage")
+    @ResponseBody
+    public List<Message> getAllMessage(){
+        List<Message> messageList = messageService.getAllMessages();
+        return messageList;
+
     }
 
 }
