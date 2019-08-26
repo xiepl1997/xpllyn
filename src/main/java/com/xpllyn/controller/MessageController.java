@@ -40,11 +40,11 @@ public class MessageController {
         return messageList;
     }
 
-    @GetMapping("/getAllMessage")
+    @GetMapping("/getAllMessages")
     @ResponseBody
     public List<Message> getAllMessage(){
-        List<Message> messageList = messageService.getAllMessages();
-        return messageList;
+        List<Message> mList = messageService.getAllMessages();
+        return mList;
 
     }
 

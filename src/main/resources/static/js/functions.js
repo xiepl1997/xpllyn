@@ -77,8 +77,9 @@ $(document).ready(function() {
 							htmls += "<p class=\"list-group-item-text\" style=\"font-size: x-small;\">" + messageList[i].time + "</p>";
 							htmls += "</a>";
 						}
-						htmls += "<a id=\"show_all_message\" class=\"list-group-item\" style=\"cursor: pointer;text-align: center;\" href=\"#modal-container-969735\" data-toggle=\"modal\"><h5>……More……</h5></a>";
+						//htmls += "<a id=\"show_all_message\" class=\"list-group-item\" style=\"cursor: pointer;text-align: center;\" href=\"#modal-container-969735\" data-toggle=\"modal\"><h5>……More……</h5></a>";
 						$("#message_group").html(htmls);
+						$("#message").val("");
 						alert("感谢您的留言！");
 					}
 				}
@@ -92,23 +93,22 @@ $(document).ready(function() {
 	//显示全部留言 by xiepl1997 at 2019-8-25
     $("#show_all_message").click(function () {
         $.ajax({
-            url: './getAllMessage',
+            url: './getAllMessages',
             type: 'GET',
             dataType: 'json',
-            success: function (messageList) {
+            success: function (mList) {
                 var htmls = "";
-                for(var i = 0; i < messageList.length; i++){
+                for(var i = 0; i < mList.length; i++){
                     if(i%2 == 0)
                         htmls += "<a class=\"list-group-item\" style=\"cursor: pointer;border-radius:15px;\">";
                     else
                         htmls += "<a class=\"list-group-item\" style=\"cursor: pointer;border-radius:15px;background-color: silver;\">";
-                    htmls += "<p class=\"list-group-item-text\" style=\"font-size: small;\">" + messageList[i].name + "</p>";
-                    htmls += "<p class=\"list-group-item-text\" style=\"font-weight: bold;margin-left: 25px;\">" + messageList[i].content + "</p>";
-                    htmls += "<p class=\"list-group-item-text\" style=\"font-size: x-small;\">" + messageList[i].time + "</p>";
+                    htmls += "<p class=\"list-group-item-text\" style=\"font-size: small;\">" + mList[i].name + "</p>";
+                    htmls += "<p class=\"list-group-item-text\" style=\"font-weight: bold;margin-left: 25px;\">" + mList[i].content + "</p>";
+                    htmls += "<p class=\"list-group-item-text\" style=\"font-size: x-small;\">" + mList[i].time + "</p>";
                     htmls += "</a>";
                 }
                 $("#all_message").html(htmls);
-                return false;//return false 使 href 链接也生效
             }
         })
     })
