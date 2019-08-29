@@ -82,7 +82,10 @@ $(document).ready(function() {
 						$("#message").val("");
 						alert("感谢您的留言！");
 					}
-				}
+				},
+				error : function (data) {
+                    alert("提交失败！");
+                }
 			})
 
 			
@@ -109,6 +112,9 @@ $(document).ready(function() {
                     htmls += "</a>";
                 }
                 $("#all_message").html(htmls);
+            },
+            error : function (data) {
+                alert("获取失败！");
             }
         })
     })
