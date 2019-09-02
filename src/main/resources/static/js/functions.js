@@ -50,6 +50,9 @@ $(document).ready(function() {
 				contentType: 'application/x-www-form-urlencoded',
 				// data: JSON.stringify(param),
 				data: param,
+                beforeSend : function(){
+                	$("#loading").modal('show');
+                },
 				success : function(messageList){
 					if(messageList == null){
 						alert("提交失败");
@@ -85,6 +88,9 @@ $(document).ready(function() {
 				},
 				error : function (data) {
                     alert("提交失败！");
+                },
+                complete : function(){
+                	$("#loading").modal('hide');
                 }
 			})
 
