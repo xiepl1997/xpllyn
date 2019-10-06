@@ -124,6 +124,21 @@ $(document).ready(function() {
             }
         })
     })
+
+	//用户点击电子书，插入一条日志
+	$(".booklist").click(function (e) {
+		var str = $(this).attr("download"); //获取书名
+		var param = {
+			bookname : str,
+			type : 'book_download'
+		};
+		$.ajax({
+			url: './ebook_download',
+			type: 'post',
+			contentType: 'application/x-www-form-urlencoded',
+			data: param
+		})
+	})
 });
 
 
