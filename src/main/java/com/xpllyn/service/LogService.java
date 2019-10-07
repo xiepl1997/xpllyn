@@ -58,6 +58,15 @@ public class LogService implements ILogService {
     }
 
     @Override
+    public Log assembleLogObject(String type, HttpServletRequest request) {
+        String ip = messageInfoUtils.getUserIp(request);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = format.format(new Date());
+        String status = "success";
+        return new Log(ip, date, type, "None", status);
+    }
+
+    @Override
     public Log assembleLogObject(HttpServletRequest request) {
         String bookname = request.getParameter("bookname");
         String type = request.getParameter("type");
@@ -65,7 +74,14 @@ public class LogService implements ILogService {
         String date = format.format(new Date());
         String ip = messageInfoUtils.getUserIp(request);
         String status = "success";
-        return new Log(ip, date, type, status);
+        Log log = null;
+        if(type.equals("book_download")){
+            log = new Log(ip, date, type, bookname, status);
+        }
+        else if(type.equals("insertMessage")){
+            log = new Log(ip, date, type, status);
+        }
+        return log;
     }
 
 }

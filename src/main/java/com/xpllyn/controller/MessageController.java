@@ -1,6 +1,8 @@
 package com.xpllyn.controller;
 
+import com.xpllyn.pojo.Log;
 import com.xpllyn.pojo.Message;
+import com.xpllyn.service.ILogService;
 import com.xpllyn.service.IMessageService;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
@@ -25,9 +27,16 @@ public class MessageController {
     @Autowired
     IMessageService messageService;
 
+    @Autowired
+    ILogService logService;
+
     @PostMapping("/insertMessage")
     @ResponseBody
     public List<Message> insertMessage(HttpServletRequest request){
+        //插入一条日志
+        Log log = logService.assembleLogObject(request);
+        logService.insertLog(log);
+
         //获取用户输入留言
         String str = request.getParameter("message");
         //得到Message

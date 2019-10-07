@@ -41,7 +41,8 @@ $(document).ready(function() {
 
 			var str = $("#message").val().trim();
 			var param = {
-				message : str
+				message : str,
+				type : 'insertMessage'
 			};
 
 			$.ajax({
@@ -136,7 +137,10 @@ $(document).ready(function() {
 			url: './ebook_download',
 			type: 'post',
 			contentType: 'application/x-www-form-urlencoded',
-			data: param
+			data: param,
+			success: function (Log) {
+
+			}
 		})
 	})
 });

@@ -1,6 +1,8 @@
 package com.xpllyn.controller;
 
+import com.xpllyn.pojo.Log;
 import com.xpllyn.pojo.Message;
+import com.xpllyn.service.LogService;
 import com.xpllyn.service.MessageService;
 import com.xpllyn.utils.BlogUtils;
 import com.xpllyn.utils.BookUtils;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -26,9 +29,16 @@ public class HomeController {
     @Autowired
     MessageService messageService = null;
 
+    @Autowired
+    LogService logService = null;
+
     //首页
     @RequestMapping("/")
-    public ModelAndView home(){
+    public ModelAndView home(HttpServletRequest request){
+        //插入一条访问日志
+        Log log = logService.assembleLogObject("visit", request);
+        logService.insertLog(log);
+
         ModelAndView mv = new ModelAndView();
 
         //获取书本

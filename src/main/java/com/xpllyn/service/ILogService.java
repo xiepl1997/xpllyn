@@ -33,6 +33,12 @@ public interface ILogService {
     List<Log> selectAllLogs();
 
     /**
+     * 生成Log对象
+     * @return
+     */
+    Log assembleLogObject(String type, HttpServletRequest request);
+
+    /**
      * 由http请求生成Log对象
      * @param request
      * @return
