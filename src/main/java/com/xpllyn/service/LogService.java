@@ -63,23 +63,21 @@ public class LogService implements ILogService {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = format.format(new Date());
         String status = "success";
-        return new Log(ip, date, type, "None", status);
+        return new Log(ip, date, type, status);
     }
 
     @Override
     public Log assembleLogObject(HttpServletRequest request) {
-        String bookname = request.getParameter("bookname");
+        String name = request.getParameter("name");
         String type = request.getParameter("type");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = format.format(new Date());
         String ip = messageInfoUtils.getUserIp(request);
         String status = "success";
         Log log = null;
-        if(type.equals("book_download")){
-            log = new Log(ip, date, type, bookname, status);
-        }
-        else if(type.equals("insertMessage")){
-            log = new Log(ip, date, type, status);
+        //如果是电子书下载、阅读博客、阅读更多博客
+        if(type.equals("book_download") || type.equals("readBlog") || type.equals("readMoreBlog")){
+            log = new Log(ip, date, type, name, status);
         }
         return log;
     }

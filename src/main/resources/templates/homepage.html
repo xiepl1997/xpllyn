@@ -119,12 +119,12 @@
 					<div class="list-group pre-scrollable" style="height: 100%;width: 100%;border-radius: 15px;border-bottom: 1px solid gray">
 					<!-- 显示最近6篇 -->
 					<span th:each="i:${#numbers.sequence(0,blogCount-1)}">
-						<a class="list-group-item" style="cursor: pointer;border: 1px solid gray" th:href="${blogList[i]?.url}">
+						<a class="list-group-item blog" style="cursor: pointer;border: 1px solid gray" th:href="${blogList[i]?.url}">
 							<h4 class="list-group-item-heading" th:text="${blogList[i]?.title}"></h4>
 							<p class="list-group-item-text" th:text="${blogList[i]?.time}"></p>
 						</a>
 					</span>
-					<a class="list-group-item" style="cursor: pointer;text-align: center;" href="https://xiepl1997.github.io/"><h5>……More……</h5></a>
+					<a class="list-group-item blog-more" style="cursor: pointer;text-align: center;" href="https://xiepl1997.github.io/"><h5>……More……</h5></a>
 				</div>
 
 				<!-- 图片轮播 -->

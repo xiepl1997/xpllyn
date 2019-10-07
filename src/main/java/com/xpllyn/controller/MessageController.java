@@ -34,7 +34,7 @@ public class MessageController {
     @ResponseBody
     public List<Message> insertMessage(HttpServletRequest request){
         //插入一条日志
-        Log log = logService.assembleLogObject(request);
+        Log log = logService.assembleLogObject("insertMessage", request);
         logService.insertLog(log);
 
         //获取用户输入留言

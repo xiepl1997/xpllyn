@@ -32,8 +32,34 @@ public class LogController {
      */
     @RequestMapping("/ebook_download")
     @ResponseBody
-    public Log insertLog(HttpServletRequest request){
+    public Log insertLog_ed(HttpServletRequest request){
         //String bookname = request.getParameter("bookname");
+        Log log = logService.assembleLogObject(request);
+        logService.insertLog(log);
+        return log;
+    }
+
+    /**
+     * 用户点击了首页博客后，插入一条用户日志
+     * @param request
+     * @return
+     */
+    @RequestMapping("/read_blog")
+    @ResponseBody
+    public Log insertLog_rb(HttpServletRequest request){
+        Log log = logService.assembleLogObject(request);
+        logService.insertLog(log);
+        return log;
+    }
+
+    /**
+     * 用户点击了查看更多博客后，插入一条用户日志
+     * @param request
+     * @return
+     */
+    @RequestMapping("/read_blog_more")
+    @ResponseBody
+    public Log insertLog_rmb(HttpServletRequest request){
         Log log = logService.assembleLogObject(request);
         logService.insertLog(log);
         return log;

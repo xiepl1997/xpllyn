@@ -130,7 +130,7 @@ $(document).ready(function() {
 	$(".booklist").click(function (e) {
 		var str = $(this).attr("download"); //获取书名
 		var param = {
-			bookname : str,
+			name : str,
 			type : 'book_download'
 		};
 		$.ajax({
@@ -138,7 +138,42 @@ $(document).ready(function() {
 			type: 'post',
 			contentType: 'application/x-www-form-urlencoded',
 			data: param,
-			success: function (Log) {
+			success: function (log) {
+
+			}
+		})
+	})
+	
+	//用户点击文章时，插入一条日志
+	$(".blog").click(function (e) {
+		var str = $(this).children("h4").text();
+		var param = {
+			name : str,
+			type : 'readBlog'
+		};
+		$.ajax({
+			url: './read_blog',
+			type: 'post',
+			contentType: 'application/x-www-form-urlencoded',
+			data: param,
+			success: function (log) {
+
+			}
+		})
+	})
+
+	//用户点击“更多文章”时，插入一条日志
+	$(".blog-more").click(function (e) {
+		var param = {
+			name : '....more....',
+			type : 'readMoreBlog'
+		};
+		$.ajax({
+			url: './read_blog_more',
+			type: 'post',
+			contentType: 'application/x-www-form-urlencoded',
+			data: param,
+			success: function (log) {
 
 			}
 		})

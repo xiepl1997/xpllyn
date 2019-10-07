@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Mapper
 public interface LogMapper {
-    @Insert("insert into Log(ip,date,type,bookname,status) values(#{ip},#{date},#{type},#{bookname},#{status})")
+    @Insert("insert into Log(ip,date,type,bookname,blogname,status) values(#{ip},#{date},#{type},#{bookname},#{blogname},#{status})")
     boolean insertLog(Log log);
 
     @Select("select * from Log")
