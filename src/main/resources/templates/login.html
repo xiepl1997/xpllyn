@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>xpllyn登陆/注册</title>
+
+    <link rel="stylesheet" type="text/css" href="css/LoginCSS.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<!--    登陆-->
+    <div class="container" style="margin-top: 50px">
+        <div class="row clearfix">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 column">
+                <!--如果账号或密码不存在，则显示-->
+                <p style="float: top;text-align: center;font-family: 等线;background-color: hotpink;border-radius: 5px;" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+                <div id="j1" class="jumbotron">
+                    <h2 style="font-family: 华文琥珀;">
+                        Welcome!
+                    </h2>
+                    <form id="LoginForm" role="form" method="post" action="/login">
+                        <div class="form-group">
+                            <label for="exampleInputId">邮箱</label><input name="id" type="email" class="form-control" id="exampleInputId" required/>
+                            <label for="exampleInputPassword">密码</label><input name="password" type="password" class="form-control" id="exampleInputPassword" required minlength="6"/>
+                        </div>
+                        <button id="LoginButton" type="submit" class="btn btn-info">进入</button>&nbsp;&nbsp;
+                        <a href="javascript:void(0)" onclick="ShowRegister()">注册</a>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+<!--    注册-->
+    <div id="c1" class="container" style="margin-top: 30px;" hidden>
+        <div class="row clearfix">
+            <div class="col-md-3"></div>
+            <div class="col-lg-6 colume">
+                <div id="j2" class="jumbotron">
+                    <h3 style="font-family: 华文琥珀;">注册</h3>
+                    <form id="RegisterForm" role="form" method="post" action="/register" onsubmit="return RegisterCheck()">
+                        <div class="form-group">
+                            <label for="exampleInputId1">邮箱</label><input name="id" type="email" class="form-control" id="exampleInputId1" required/>
+                            <label for="InputName">姓名</label><input name="name" type="text" class="form-control" id="InputName" required/>
+                            <label for="exampleInputPassword1">密码</label><input name="password" type="password" class="form-control" id="exampleInputPassword1" required minlength="6" />
+                            <label for="InputRepeatPassword">重复密码</label><input name="password" type="password" class="form-control" id="InputRepeatPassword" required minlength="6" />
+                            <p id="msg_pwd" style="font-family: 等线;border-radius: 5px;"></p>
+                            <label for="InputPhone">电话号码</label><input name="phone" type="text" size="11" class="form-control" id="InputPhone" required minlength="11" maxlength="11" />
+                            <label class="control-label">性别</label><br>
+                            <label class="radio-inline"><input class="n" name="type" type="radio" value="man" checked>男</label>
+                            <label class="radio-inline"><input class="n" name="type" type="radio" value="woman">女</label>
+                        </div>
+                        <button id="RegisterButton" type="submit" class="btn btn-info">注册并进入</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="js/JQuery/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/functions.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+#j1{
+    margin-bottom: 0px;
+    background-image: url(../images/bg.JPG);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
+
+#LoginForm{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#j2{
+    margin-bottom: 0px;
+    background-image: url(../images/bg.JPG);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#RegisterForm{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.n{
+
+}

@@ -180,6 +180,15 @@ $(document).ready(function() {
 	})
 });
 
+/**
+ * function:显示注册界面
+ * date:2020/2/4
+ * @constructor
+ */
+function ShowRegister() {
+	$("#c1").removeAttr("hidden");
+}
+
 
 
 
