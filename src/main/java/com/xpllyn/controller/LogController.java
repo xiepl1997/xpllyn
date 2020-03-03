@@ -1,7 +1,7 @@
 package com.xpllyn.controller;
 
 import com.xpllyn.pojo.Log;
-import com.xpllyn.service.LogService;
+import com.xpllyn.service.impl.LogService;
 import com.xpllyn.utils.MessageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

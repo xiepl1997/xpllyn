@@ -2,8 +2,8 @@ package com.xpllyn.controller;
 
 import com.xpllyn.pojo.Log;
 import com.xpllyn.pojo.Message;
-import com.xpllyn.service.LogService;
-import com.xpllyn.service.MessageService;
+import com.xpllyn.service.impl.LogService;
+import com.xpllyn.service.impl.MessageService;
 import com.xpllyn.utils.BlogUtils;
 import com.xpllyn.utils.BookUtils;
 import org.springframework.beans.factory.annotation.Autowired;

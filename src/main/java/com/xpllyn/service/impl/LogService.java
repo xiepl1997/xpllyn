@@ -1,7 +1,8 @@
-package com.xpllyn.service;
+package com.xpllyn.service.impl;
 
 import com.xpllyn.mapper.LogMapper;
 import com.xpllyn.pojo.Log;
+import com.xpllyn.service.ILogService;
 import com.xpllyn.utils.MessageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
