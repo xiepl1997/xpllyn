@@ -10,6 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -42,13 +43,13 @@ public class MessageService implements IMessageService {
     @Override
     public Message assembleMessageObject(String str, String pre_id, HttpServletRequest request){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String time = dateFormat.format(new Date());
+        Timestamp time = new Timestamp(System.currentTimeMillis());
 
         //HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
         String ip = messageInfoUtils.getUserIp(request);
 
-        String id = ip+"/"+time;
+        String id = ip + "/" + dateFormat.format(time);
 
         String[] province_city = messageInfoUtils.getAddressByIp(ip);
 
