@@ -1,5 +1,7 @@
 package com.xpllyn.pojo;
 
+import java.sql.Timestamp;
+
 /**
  * 留言pojo
  * created by xiepl1997 at 2019-8-21
@@ -11,10 +13,10 @@ public class Message {
     private String name;
     private String province;
     private String city;
-    private String time;
+    private Timestamp time;
     private String content;
 
-    public Message(String ip, String id, String pre_id, String name, String province, String city, String time, String content) {
+    public Message(String ip, String id, String pre_id, String name, String province, String city, Timestamp time, String content) {
         this.ip = ip;
         this.id = id;
         this.pre_id = pre_id;
@@ -49,7 +51,7 @@ public class Message {
         this.city = city;
     }
 
-    public void setTime(String time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
 
@@ -79,7 +81,7 @@ public class Message {
         return city;
     }
 
-    public String getTime() {
+    public Timestamp getTime() {
         return time;
     }
 

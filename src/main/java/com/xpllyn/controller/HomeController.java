@@ -1,8 +1,6 @@
 package com.xpllyn.controller;
 
-import com.xpllyn.pojo.Log;
 import com.xpllyn.pojo.Message;
-import com.xpllyn.service.impl.LogService;
 import com.xpllyn.service.impl.MessageService;
 import com.xpllyn.utils.BlogUtils;
 import com.xpllyn.utils.BookUtils;
@@ -29,26 +27,20 @@ public class HomeController {
     @Autowired
     MessageService messageService = null;
 
-    @Autowired
-    LogService logService = null;
-
     //首页
     @RequestMapping("/")
     public ModelAndView home(HttpServletRequest request){
-        //插入一条访问日志
-        Log log = logService.assembleLogObject("visit", request);
-        logService.insertLog(log);
 
         ModelAndView mv = new ModelAndView();
 
         //获取书本
         List bookList = null;
-        try {
-            bookList = bookUtil.getFileName("classpath:static/book");
-            //bookList = bookUtil.getFileName("/opt/book");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+////            bookList = bookUtil.getFileName("classpath:static/book");
+//            bookList = bookUtil.getFileName("/opt/book");
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
         //获取最近文章标题和发表时间和url
         List blogList = null;
