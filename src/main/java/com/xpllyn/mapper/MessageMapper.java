@@ -15,10 +15,10 @@ import java.util.List;
 @Mapper
 public interface MessageMapper {
 
-    @Insert("insert into Message(ip,id,pre_id,name,province,city,time,content) values(#{ip}, #{id}, #{pre_id}, #{name},#{province}, #{city}, #{time}, #{content})")
+    @Insert("insert into message(ip,pre_id,name,province,city,create_time,update_time,content) values(#{ip},#{pre_id},#{name},#{province},#{city},current_timestamp,current_timestamp,#{content})")
     boolean insert(Message message);
 
-    @Select("select * from Message order by time desc")
+    @Select("select * from message order by create_time desc")
     List<Message> selectAll();
 
 }

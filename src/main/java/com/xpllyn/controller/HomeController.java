@@ -1,5 +1,6 @@
 package com.xpllyn.controller;
 
+import com.xpllyn.pojo.Book;
 import com.xpllyn.pojo.Message;
 import com.xpllyn.service.impl.MessageService;
 import com.xpllyn.utils.BlogUtils;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -34,13 +36,14 @@ public class HomeController {
         ModelAndView mv = new ModelAndView();
 
         //获取书本
+//        List bookList = null;
         List bookList = null;
-//        try {
-////            bookList = bookUtil.getFileName("classpath:static/book");
-//            bookList = bookUtil.getFileName("/opt/book");
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        try {
+//            bookList = bookUtil.getFileName("C:\\Users\\xiepl\\Desktop");
+            bookList = bookUtil.getFileName("/opt/book");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         //获取最近文章标题和发表时间和url
         List blogList = null;

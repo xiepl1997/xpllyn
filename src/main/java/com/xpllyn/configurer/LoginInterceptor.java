@@ -16,9 +16,9 @@ public class LoginInterceptor implements HandlerInterceptor {
     /**
      * 在controller调用之前进行调用
      */
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        response.sendRedirect(request.getContextPath() + "/");
-        return false;
-    }
+//    @Override
+//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+//        response.sendRedirect(request.getContextPath() + "/");
+//        return false;
+//    }
 }

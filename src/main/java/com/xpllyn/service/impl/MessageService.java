@@ -49,11 +49,9 @@ public class MessageService implements IMessageService {
 
         String ip = messageInfoUtils.getUserIp(request);
 
-        String id = ip + "/" + dateFormat.format(time);
-
         String[] province_city = messageInfoUtils.getAddressByIp(ip);
 
-        String name = "来自";
+        String name = "";
         //如果省和市名字一样（如北京市北京市）
         if(province_city[0].equals(province_city[1])){
             name = province_city[0];
@@ -63,7 +61,7 @@ public class MessageService implements IMessageService {
         }
         name += "的朋友";
 
-        Message message = new Message(ip,id,pre_id,name,province_city[0],province_city[1],time,str);
+        Message message = new Message(ip ,pre_id ,name ,province_city[0] ,province_city[1] ,str);
 
         return message;
     }

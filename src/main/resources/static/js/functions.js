@@ -75,10 +75,14 @@ $(document).ready(function() {
 						    count = 8;
                         }
 						for(var i = 0; i < count; i++){
+							var span = Date.parse(messageList[i].create_time);
+							var dt = new Date(span);
+							var timeStr = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate() + ' ' + dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+
 							htmls += "<a class=\"list-group-item\" style=\"cursor: pointer;border: 1px solid gray\">";
 							htmls += "<p class=\"list-group-item-text\" style=\"font-size: small;\">" + messageList[i].name + "</p>";
 							htmls += "<p class=\"list-group-item-text\" style=\"font-weight: bold;margin-left: 25px;\">" + messageList[i].content + "</p>";
-							htmls += "<p class=\"list-group-item-text\" style=\"font-size: x-small;\">" + messageList[i].time + "</p>";
+							htmls += "<p class=\"list-group-item-text\" style=\"font-size: x-small;\">" + timeStr + "</p>";
 							htmls += "</a>";
 						}
 						//htmls += "<a id=\"show_all_message\" class=\"list-group-item\" style=\"cursor: pointer;text-align: center;\" href=\"#modal-container-969735\" data-toggle=\"modal\"><h5>……More……</h5></a>";
@@ -109,13 +113,17 @@ $(document).ready(function() {
             success: function (mList) {
                 var htmls = "";
                 for(var i = 0; i < mList.length; i++){
-                    if(i%2 == 0)
+					var span = Date.parse(mList[i].create_time);
+					var dt = new Date(span);
+					var timeStr = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate() + ' ' + dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+
+					if(i%2 == 0)
                         htmls += "<a class=\"list-group-item\" style=\"cursor: pointer;border-radius:15px;\">";
                     else
                         htmls += "<a class=\"list-group-item\" style=\"cursor: pointer;border-radius:15px;background-color: silver;\">";
                     htmls += "<p class=\"list-group-item-text\" style=\"font-size: small;\">" + mList[i].name + "</p>";
                     htmls += "<p class=\"list-group-item-text\" style=\"font-weight: bold;margin-left: 25px;\">" + mList[i].content + "</p>";
-                    htmls += "<p class=\"list-group-item-text\" style=\"font-size: x-small;\">" + mList[i].time + "</p>";
+                    htmls += "<p class=\"list-group-item-text\" style=\"font-size: x-small;\">" + timeStr + "</p>";
                     htmls += "</a>";
                 }
                 $("#all_message").html(htmls);
