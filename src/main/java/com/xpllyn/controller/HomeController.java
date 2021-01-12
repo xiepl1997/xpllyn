@@ -39,8 +39,8 @@ public class HomeController {
 //        List bookList = null;
         List bookList = null;
         try {
-//            bookList = bookUtil.getFileName("C:\\Users\\xiepl\\Desktop");
-            bookList = bookUtil.getFileName("/opt/book");
+            bookList = bookUtil.getFileName("C:\\Users\\xiepl\\Desktop");
+//            bookList = bookUtil.getFileName("/opt/book");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -49,20 +49,20 @@ public class HomeController {
         List blogList = null;
         blogList = blogUtils.getBlogInfo();
 
-        //若blog数量小于6，则显示blog实际的篇数，否则显示6篇
+        //若blog数量小于10，则显示blog实际的篇数，否则显示10篇
         int blogCount = 0;
-        if(blogList.size() < 6){
+        if(blogList.size() < 10){
             blogCount = blogList.size();
         }
         else{
-            blogCount = 6;
+            blogCount = 10;
         }
 
-        //获取最近8条评论
+        //获取最近10条评论
         List<Message> messageList = messageService.getAllMessages();
         int messageCount = messageList.size();
-        if(messageCount > 8){
-            messageCount = 8;
+        if(messageCount > 10){
+            messageCount = 10;
         }
 
         mv.addObject("blogCount",blogCount);
@@ -70,7 +70,24 @@ public class HomeController {
         mv.addObject("bookList", bookList);
         mv.addObject("messageList",messageList);
         mv.addObject("messageCount" ,messageCount);
+        mv.addObject("tab_index", 0);
         mv.setViewName("homepage");
+        return mv;
+    }
+
+    @RequestMapping("/GitHubPageSearch")
+    public ModelAndView gotoGitHubPageSearch() {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("tab_index", 4);
+        mv.setViewName("github_page_search");
+        return mv;
+    }
+
+    @RequestMapping("/chatroom")
+    public ModelAndView gotoChatRoom() {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("tab_index", 2);
+        mv.setViewName("chat_room");
         return mv;
     }
 }

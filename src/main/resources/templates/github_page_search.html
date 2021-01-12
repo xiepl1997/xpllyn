@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GitHub Page Search</title>
+    <link rel="stylesheet" type="text/css" href="css/githubPageSearch.css"></link>
+    <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+</head>
+<body class="modbg" style="padding-top: 70px;padding-bottom: -1000px">
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div th:replace="commons/navication :: navication"></div>
+            <div class="page-header" style="text-align: center">
+                <h1>
+                    <small style="color: white">欢迎使用<img src="images/githubpagesearch_25.png"/>工具🤗🤗<br>
+                        <small style="color: white">
+                            使用本工具，您可以：<br>
+                            📌 查阅在百度上很难查到的GitHub Page博客及主页<br>
+                            📌 查阅排名靠前的优质GitHub Page博客及主页<br>
+                            📌 收获多多的知识的芬芳😍<br>
+                            📌 …………
+                        </small>
+                    </small>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-4 column"></div>
+        <div class="col-md-4 column">
+            <span style="display: inline-block;vertical-align: middle"></span>
+            <img
+                    src="images/githubpagesearch.png"
+                    alt="GitHub Page Search"
+                    title="GitHub Page Search"
+                    width=100%
+            />
+        </div>
+        <div class="col-md-4 column"></div>
+    </div>
+    <div class="row clearfix" style="padding-top: 30px">
+        <div class="col-md-2 column"></div>
+        <div class="col-md-8 column">
+            <input type="text"></input>
+            <button class="buttonx">
+                <strong class="searchbutton">search</strong>
+            </button>
+        </div>
+        <div class="col-md-2 column"></div>
+    </div>
+    <div class="modal fade" id="modal-container-301161" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        关于
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p style="text-indent: 2em;">搭建本站没别的目的，只是闲不下敲代码的手。</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="js/JQuery/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+
+input {
+    outline: none;
+    border: 2px solid #a7aab5;
+    height: 45px;
+    width: 85%;
+    box-sizing: border-box;
+    text-indent: 6px;
+    font-size: 16px;
+    border-radius: 10px 0 0 10px;
+}
+/* 输入框聚焦 */
+input:focus {
+    color: #000;
+    background-color: #fff;
+    border-color: #4e6ef2 !important;
+    border-radius: 10px 0 0 10px;
+}
+.searchbutton {
+    font-size: 17px;
+}
+
+.buttonx {
+    height: 45px;
+    width: 15%;
+    float: right;
+    border: none;
+    color: white;
+    box-sizing: border-box;
+    background-color: #4e6ef2;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+}
+.imges {
+    margin: 0 auto;
+}
+.cen {
+    text-align: center;
+    margin-bottom: 80px;
+}
+.buttom {
+    text-align: center;
+    padding-left: 30px;
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 10px;
+    background-color: #fbfbfb;
+}
+
+/* 登录按钮的下拉登录图片 */
+.settings {
+    position: relative;
+    left: 13px;
+    background-color: #4e71f2;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 12px;
+    width: 50px;
+    height: 25px;
+    display: inline-block;
+}
+.dropdown-settings {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content-settings {
+    display: none;
+    position: absolute;
+    right: -10px;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-settings:hover .dropdown-content-settings {
+    display: block;
+}
+
+.modbg{
+    background: url("../images/githubpagesearchbg.jpg");
+    background-position: center center;
+    background-size: cover;
+    position: fixed;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+body{
+    display:inline-block;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    padding-top: 40px;
+}
+
+html, body{
+    height: 100%;
+    overflow: auto;
+}

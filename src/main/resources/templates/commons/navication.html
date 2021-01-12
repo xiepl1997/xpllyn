@@ -1,0 +1,43 @@
+<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
+<nav th:fragment="navication" class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation" style="padding-right: 30px">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">
+        <img src="images/newtitle.png">
+    </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+            <li th:classappend="${tab_index == 0 ? 'active' : null}">
+                <a href="/">主页</a>
+            </li>
+            <li th:classappend="${tab_index == 1 ? 'active' : null}">
+                <a href="http://xiepl1997.github.io" target="_blank">我的个人博客</a>
+            </li>
+            <li th:classappend="${tab_index == 2 ? 'active' : null}">
+                <a href="/chatroom">聊天室</a>
+            </li>
+            <li th:classappend="${tab_index == 3 ? 'active' : null}">
+                <a href="javascript:alert('正在开发，敬请期待！')">资源共享</a>
+            </li>
+            <li th:classappend="${tab_index == 4 ? 'active' : null}">
+                <a href="/GitHubPageSearch">GitHub博客搜索工具</a>
+            </li>
+
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="/login">登陆/注册</a>
+            </li>
+            <li>
+                <a href="#modal-container-301161" data-toggle="modal">关于</a>
+            </li>
+            <form class="navbar-form navbar-right" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="输入你的问题或者兴趣"/>
+                </div> <button type="submit" class="btn btn-default btn-info">Search</button>
+            </form>
+        </ul>
+    </div>
+
+</nav>
