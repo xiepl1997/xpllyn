@@ -45,10 +45,11 @@ input:focus {
     bottom: 0px;
     left: 0;
     height: 40px;
+    width: 100%;
     line-height: 40px;
     text-align: center;
     font-size: 10px;
-    background-color: #fbfbfb;
+    background-color: rgba(0,0,0,0.3);
 }
 
 /* 登录按钮的下拉登录图片 */
@@ -102,4 +103,18 @@ body{
 html, body{
     height: 100%;
     overflow: auto;
+}
+
+#circle{
+    margin: 20px auto;
+    width: 45px;
+    height: 45px;
+    border: 5px white solid;
+    border-left-color: #ff5500;
+    border-right-color:#0c80fe;
+    border-radius: 100%;
+    animation: loading1 1s infinite linear;
+}
+@keyframes loading1{
+    from{transform: rotate(0deg)}to{transform: rotate(360deg)}
 }

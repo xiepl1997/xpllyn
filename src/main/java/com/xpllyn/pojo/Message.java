@@ -17,6 +17,8 @@ public class Message {
     private Timestamp update_time;
     private String content;
 
+    public Message() {}
+
     public Message(String ip, String pre_id, String name, String province, String city, String content) {
         this.ip = ip;
         this.pre_id = pre_id;

@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@EnableAutoConfiguration
 public class HomeController {
 
     @Autowired
@@ -72,14 +71,6 @@ public class HomeController {
         mv.addObject("messageCount" ,messageCount);
         mv.addObject("tab_index", 0);
         mv.setViewName("homepage");
-        return mv;
-    }
-
-    @RequestMapping("/GitHubPageSearch")
-    public ModelAndView gotoGitHubPageSearch() {
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("tab_index", 4);
-        mv.setViewName("github_page_search");
         return mv;
     }
 

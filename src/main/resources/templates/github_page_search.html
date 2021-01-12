@@ -7,12 +7,13 @@
     <title>GitHub Page Search</title>
     <link rel="stylesheet" type="text/css" href="css/githubPageSearch.css"></link>
     <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css">
 </head>
 <body class="modbg" style="padding-top: 70px;padding-bottom: -1000px">
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
-            <div th:replace="commons/navication :: navication"></div>
+            <div th:replace="commons/navigation :: navigation"></div>
             <div class="page-header" style="text-align: center">
                 <h1>
                     <small style="color: white">欢迎使用<img src="images/githubpagesearch_25.png"/>工具🤗🤗<br>
@@ -20,7 +21,7 @@
                             使用本工具，您可以：<br>
                             📌 查阅在百度上很难查到的GitHub Page博客及主页<br>
                             📌 查阅排名靠前的优质GitHub Page博客及主页<br>
-                            📌 收获多多的知识的芬芳😍<br>
+                            📌 收获更多知识的芬芳😍<br>
                             📌 …………
                         </small>
                     </small>
@@ -41,16 +42,20 @@
         </div>
         <div class="col-md-4 column"></div>
     </div>
-    <div class="row clearfix" style="padding-top: 30px">
+    <div class="row clearfix" style="padding-top: 30px;">
         <div class="col-md-2 column"></div>
         <div class="col-md-8 column">
-            <input type="text"></input>
+            <input id="search_text" type="text" placeholder="输入你的问题或者兴趣"></input>
             <button class="buttonx">
                 <strong class="searchbutton">search</strong>
             </button>
         </div>
         <div class="col-md-2 column"></div>
     </div>
+
+    <div id="content" class="row clearfix" style="padding-top: 20px;">
+    </div>
+
     <div class="modal fade" id="modal-container-301161" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -63,14 +68,44 @@
                 <div class="modal-body">
                     <p style="text-indent: 2em;">搭建本站没别的目的，只是闲不下敲代码的手。</p>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 </div>
+<div th:replace="commons/footer :: #footer"></div>
 <script type="text/javascript" src="js/JQuery/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on('click', '.buttonx', function () {
+            var text = $('#search_text').val().trim();
+            if (text == '') {
+                return;
+            }
+            $.ajax({
+                url : '/GitHubPageSearch/' + text,
+                type : 'GET',
+                contentType: 'application/x-www-form-urlencoded',
+                beforeSend : function () {
+                    var html = "<div id='circle'></div>";
+                    $('#content').html(html);
+                },
+                success : function (projectList) {
+                    if (projectList == null) {
+                        $('content').html("<div><h1>We couldn’t find any repositories matching</h1></div>");
+                    } else {
+                        var len = projectList.length;
+                        var html = '';
+                        for (var i = 0; i < len; i++) {
+                            html += "<a>"+ projectList[i].full_name + + "/" + projectList[i].owner.login +"</a><br>"
+                        }
+                        $('#content').html(html);
+                    }
+
+                }
+            })
+        })
+    })
+</script>
 </body>
 </html>

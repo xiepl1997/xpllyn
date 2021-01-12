@@ -1,5 +1,5 @@
 <html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml">
-<nav th:fragment="navication" class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation" style="padding-right: 30px">
+<nav th:fragment="navigation" class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation" style="padding-right: 30px">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">
         <img src="images/newtitle.png">
@@ -26,7 +26,7 @@
 
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li>
+            <li th:classappend="${tab_index == 5 ? 'active' : null}">
                 <a href="/login">登陆/注册</a>
             </li>
             <li>
@@ -34,7 +34,7 @@
             </li>
             <form class="navbar-form navbar-right" role="search">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="输入你的问题或者兴趣"/>
+                    <input type="text" class="form-control"/>
                 </div> <button type="submit" class="btn btn-default btn-info">Search</button>
             </form>
         </ul>

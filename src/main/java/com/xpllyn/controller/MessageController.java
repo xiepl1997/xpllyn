@@ -2,8 +2,6 @@ package com.xpllyn.controller;
 
 import com.xpllyn.pojo.Message;
 import com.xpllyn.service.IMessageService;
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -19,7 +17,6 @@ import java.util.List;
  * 获取用户ip地址，将用户评论保存
  */
 @Controller
-@EnableAutoConfiguration
 public class MessageController {
 
     @Autowired
