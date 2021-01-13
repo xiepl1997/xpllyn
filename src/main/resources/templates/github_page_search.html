@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css">
 </head>
-<body class="modbg" style="padding-top: 70px;padding-bottom: -1000px">
+<body class="modbg" style="padding-top: 40px;padding-bottom: -1000px">
 <div class="container">
     <div class="row clearfix">
         <div class="col-md-12 column">
@@ -20,7 +20,7 @@
                         <small style="color: white">
                             使用本工具，您可以：<br>
                             📌 查阅在百度上很难查到的GitHub Page博客及主页<br>
-                            📌 查阅排名靠前的优质GitHub Page博客及主页<br>
+                            📌 查阅排名靠前的优质GitHub Page博客主页以及开源项目<br>
                             📌 收获更多知识的芬芳😍<br>
                             📌 …………
                         </small>
@@ -45,7 +45,7 @@
     <div class="row clearfix" style="padding-top: 30px;">
         <div class="col-md-2 column"></div>
         <div class="col-md-8 column">
-            <input id="search_text" type="text" placeholder="输入你的问题或者兴趣"></input>
+            <input id="search_text" type="text" placeholder="输入你的兴趣，例如：java、cpp、资源、后端、笔记……">
             <button class="buttonx">
                 <strong class="searchbutton">search</strong>
             </button>
@@ -53,7 +53,11 @@
         <div class="col-md-2 column"></div>
     </div>
 
-    <div id="content" class="row clearfix" style="padding-top: 20px;">
+    <div class="row clearfix" style="padding-top: 20px;">
+        <div id="content" class="col-md-12" style="text-align: center"></div>
+        <div id="classification" class="col-md-2"></div>
+        <div id="items" class="col-md-8"></div>
+        <div class="col-md-2"></div>
     </div>
 
     <div class="modal fade" id="modal-container-301161" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -82,30 +86,65 @@
             if (text == '') {
                 return;
             }
+            var param = {
+                q : text
+            };
             $.ajax({
-                url : '/GitHubPageSearch/' + text,
+                url : '/GitHubPageSearch/search',
                 type : 'GET',
+                data : param,
                 contentType: 'application/x-www-form-urlencoded',
                 beforeSend : function () {
                     var html = "<div id='circle'></div>";
                     $('#content').html(html);
                 },
-                success : function (projectList) {
-                    if (projectList == null) {
-                        $('content').html("<div><h1>We couldn’t find any repositories matching</h1></div>");
+                success : function (data) {
+                    var pList = data.repositoryList;
+                    var repository_count = data.repository_count;
+                    var language_order = data.language_order;
+                    if (repository_count == 0) {
+                        $('#content').html("<div><h2 style='color: white'>We couldn’t find any repositories matching</h2></div>");
                     } else {
-                        var len = projectList.length;
-                        var html = '';
-                        for (var i = 0; i < len; i++) {
-                            html += "<a>"+ projectList[i].full_name + + "/" + projectList[i].owner.login +"</a><br>"
+                        $('#content').html('');
+                        var len = pList.length;
+
+                        var html1 = "<ul class='list-group'>" +
+                            "<li class='list-group-item'>Repositories<span class='badge'>" + repository_count + "</span></li>";
+                        for (var i = 0; i < language_order.length; i++) {
+                            html1 += "<li class='list-group-item'>" + language_order[i].language + "<span class='badge'>" + language_order[i].count + "</span></li>";
                         }
-                        $('#content').html(html);
+                        html1 += "</ul>";
+                        $('#classification').html(html1);
+
+                        var html2 = "<ul class='list-group'>";
+                        for (var i = 0; i < len; i++) {
+                            html2 += "<li class='list-group-item'>" +
+                                "<a href='http://github.com/" + pList[i].full_name + "' target='_blank'>📚 " + pList[i].full_name + "</a>";
+                            if (pList[i].description != null)
+                                html2 += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + pList[i].description + "</p>";
+                            html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>⭐" + pList[i].stargazers_count + "</span>";
+                            if (pList[i].language != null)
+                                html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>🔹" + pList[i].language + "</span>";
+                            html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>Updated on " + timeformat(pList[i].updated_at) + "</span>";
+                            if (pList[i].io_url != null)
+                                html2 += "&nbsp;&nbsp;&nbsp;&nbsp;🌎<a href='" + pList[i].io_url + "' target='_blank'>GitHub Page</a>";
+                            html2 += "</li>";
+                        }
+                        html2 += "</ul>";
+                        $('#items').html(html2);
                     }
 
                 }
             })
         })
     })
+    function timeformat(time) {
+        var date = new Date(time);
+        if (date.getMonth() + 1 >= 10) {
+
+        }
+        return date.getFullYear() + '-' + date.getMonth() + 1 + '-' + date.getDay();
+    }
 </script>
 </body>
 </html>

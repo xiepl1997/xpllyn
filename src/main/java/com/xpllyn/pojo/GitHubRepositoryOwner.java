@@ -1,6 +1,6 @@
 package com.xpllyn.pojo;
 
-public class GitHubProjectOwner {
+public class GitHubRepositoryOwner {
     private String login;
     private String avatar_url;
     private String html_url;

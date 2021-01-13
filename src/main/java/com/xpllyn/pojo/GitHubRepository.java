@@ -1,9 +1,9 @@
 package com.xpllyn.pojo;
 
-public class GitHubProject {
+public class GitHubRepository {
     private String name;
     private String full_name;
-    private GitHubProjectOwner owner;
+    private GitHubRepositoryOwner owner;
     private String html_url;
     private String io_url;
     private String description;
@@ -11,6 +11,15 @@ public class GitHubProject {
     private int watchers;
     private int forks;
     private String language;
+    private String updated_at;
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
 
     public String getName() {
         return name;
@@ -28,11 +37,11 @@ public class GitHubProject {
         this.full_name = full_name;
     }
 
-    public GitHubProjectOwner getOwner() {
+    public GitHubRepositoryOwner getOwner() {
         return owner;
     }
 
-    public void setOwner(GitHubProjectOwner owner) {
+    public void setOwner(GitHubRepositoryOwner owner) {
         this.owner = owner;
     }
 
