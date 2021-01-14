@@ -29,10 +29,9 @@
             </div>
         </div>
     </div>
-    <div class="row clearfix">
+    <div class="row clearfix" id="bg">
         <div class="col-md-4 column"></div>
         <div class="col-md-4 column">
-            <span style="display: inline-block;vertical-align: middle"></span>
             <img
                     src="images/githubpagesearch.png"
                     alt="GitHub Page Search"
@@ -60,6 +59,13 @@
         <div class="col-md-2"></div>
     </div>
 
+    <div class="row clearfix" style="padding-bottom: 40px;">
+        <div id="content1" class="col-md-12" style="text-align: center"></div>
+        <div style="text-align: center" id="paginationContainer" hidden="hidden">
+            <ul class="pagination" id="pagination"></ul>
+        </div>
+    </div>
+
     <div class="modal fade" id="modal-container-301161" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -79,6 +85,7 @@
 <div th:replace="commons/footer :: #footer"></div>
 <script type="text/javascript" src="js/JQuery/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jq-paginator.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $(document).on('click', '.buttonx', function () {
@@ -87,7 +94,8 @@
                 return;
             }
             var param = {
-                q : text
+                q : text,
+                page : 1
             };
             $.ajax({
                 url : '/GitHubPageSearch/search',
@@ -132,19 +140,90 @@
                         }
                         html2 += "</ul>";
                         $('#items').html(html2);
+                        $('#paginationContainer').removeAttr('hidden');
+                        initPaginator(data.page_count, text);
+
                     }
 
+                },
+                complete : function (XMLHttpRequest, status) {
+                    if (status == 'timeout' || status == 'error') {
+                        $('#content').html("<div><h2 style='color: white'>We couldn’t find any repositories matching</h2></div>");
+                    }
                 }
             })
         })
-    })
+    });
+
     function timeformat(time) {
         var date = new Date(time);
-        if (date.getMonth() + 1 >= 10) {
-
-        }
-        return date.getFullYear() + '-' + date.getMonth() + 1 + '-' + date.getDay();
+        var m = date.getMonth() + 1;
+        return date.getFullYear() + '-' + m + '-' + date.getDay();
     }
+
+    /**
+     * 分页初始化
+     * @param page_count 总页数
+     * @param text 用户查询输入
+     */
+    function initPaginator(page_count, text) {
+        var is_first = true;
+        $('#pagination').jqPaginator({
+            currentPage: 1,
+            totalPages: page_count,
+            visiblePages: 6,
+            first: '<li><a href="javascript:;">首页</a></li>',
+            prev: '<li><a href="javascript:;">上一页</a></li>',
+            next: '<li><a href="javascript:;">下一页</a></li>',
+            last: '<li><a href="javascript:;">末页</a></li>',
+            page: '<li><a href="javascript:;">{{page}}</a></li>',
+            onPageChange: function (page, type) {
+                if (is_first) {
+                    is_first = false;
+                    return;
+                }
+                $.ajax({
+                    url: '/GitHubPageSearch/search',
+                    data: {q : text, page : page},
+                    type: 'GET',
+                    contentType: 'application/x-www-form-urlencoded',
+                    beforeSend: function () {
+                        var html = "<div id='circle'></div>";
+                        $('#content1').html(html);
+                    },
+                    success: function (data) {
+                        $('#content1').html('');
+                        var pList = data.repositoryList;
+                        var len = pList.length;
+                        var html2 = "<ul class='list-group'>";
+                        for (var i = 0; i < len; i++) {
+                            html2 += "<li class='list-group-item'>" +
+                                "<a href='http://github.com/" + pList[i].full_name + "' target='_blank'>📚 " + pList[i].full_name + "</a>";
+                            if (pList[i].description != null)
+                                html2 += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + pList[i].description + "</p>";
+                            html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>⭐" + pList[i].stargazers_count + "</span>";
+                            if (pList[i].language != null)
+                                html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>🔹" + pList[i].language + "</span>";
+                            html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>Updated on " + timeformat(pList[i].updated_at) + "</span>";
+                            if (pList[i].io_url != null)
+                                html2 += "&nbsp;&nbsp;&nbsp;&nbsp;🌎<a href='" + pList[i].io_url + "' target='_blank'>GitHub Page</a>";
+                            html2 += "</li>";
+                        }
+                        html2 += "</ul>";
+                        $('#items').html(html2);
+                        $('html, body').animate({scrollTop: $('#bg').offset().top}, 'slow');
+                    },
+                    complete: function (XMLHttpRequest, status) {
+                        if (status == 'timeout' || status == 'error') {
+                            $('#content').html("<div><h2 style='color: white'>We couldn’t find any repositories matching</h2></div>");
+                        }
+                    }
+
+                })
+            }
+        });
+    }
+
 </script>
 </body>
 </html>
