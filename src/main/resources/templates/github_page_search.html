@@ -152,6 +152,12 @@
                     }
                 }
             })
+        });
+
+        //在文本框中回车，出发点击事件
+        $(document).on('keyup', '#search_text', function (event) {
+            if (event.keyCode == 13)
+                $('.buttonx').get(0).click();
         })
     });
 

@@ -75,8 +75,8 @@ public class GitHubSearchController {
             }
         }
 
-        // 总页数，每页20个结果
-        int page_count = (int)Math.ceil(repository_count / 20.0);
+        // 总页数，每页10个结果
+        int page_count = (int)Math.ceil(repository_count / 10.0);
 
         Map<String, Object> map = new HashMap<>();
         map.put("repositoryList", repositoryList);

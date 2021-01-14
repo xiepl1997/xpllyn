@@ -28,7 +28,7 @@ public class SearchUtil {
         text = "in:name github.io in:description " + text;
         JSONObject jsonObject = null;
         try {
-            URL url = new URL(u + URLEncoder.encode(text, "utf-8") + "&per_page=20&page=" + page);
+            URL url = new URL(u + URLEncoder.encode(text, "utf-8") + "&per_page=10&page=" + page);
             BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream(), "utf-8"));
             String rowText = readAll(br);
             jsonObject = JSON.parseObject(rowText);
