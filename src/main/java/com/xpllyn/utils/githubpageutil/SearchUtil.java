@@ -3,6 +3,7 @@ package com.xpllyn.utils.githubpageutil;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSONReader;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -24,13 +25,18 @@ public class SearchUtil {
 
     public final String u = "https://api.github.com/search/repositories?q=";
 
-    public JSONObject readJsonFromUrl(String text, int page) {
-        text = "in:name github.io in:description " + text;
+    public JSONObject readJsonFromUrl(String text, int page, String otherConditions) {
+        if (!otherConditions.equals("general_match"))
+            text = "in:name github.io in:description " + text;
+        else {
+            otherConditions = "";
+        }
         JSONObject jsonObject = null;
         try {
-            URL url = new URL(u + URLEncoder.encode(text, "utf-8") + "&per_page=10&page=" + page);
+            URL url = new URL(u + URLEncoder.encode(text, "utf-8") + "&per_page=10&page=" + page + otherConditions);
             BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream(), "utf-8"));
             String rowText = readAll(br);
+
             jsonObject = JSON.parseObject(rowText);
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,63 +51,6 @@ public class SearchUtil {
             sb.append(line);
         }
         return sb.toString();
-    }
-
-    /**
-     * 获取语言数量及排名
-     *
-     * @return
-     */
-    public PriorityQueue<LanguageOrder> getLanguageOrder(String text) throws IOException {
-        PriorityQueue<LanguageOrder> queue = new PriorityQueue<>();
-
-        text = "in:name github.io in:description " + text + " language:Java";
-        JSONObject jsonObject = null;
-        BufferedReader br = null;
-        URL url = null;
-        String rowText = "";
-
-        url = new URL(u + URLEncoder.encode(text, "utf-8") + "&per_page=1&page=1");
-        br = new BufferedReader(new InputStreamReader(url.openStream(), "utf-8"));
-        rowText = readAll(br);
-        jsonObject = JSON.parseObject(rowText);
-        int count = jsonObject.getInteger("total_count");
-        queue.add(new LanguageOrder("Java", count));
-
-        text = "in:name github.io in:description " + text + " language:C++";
-        url = new URL(u + URLEncoder.encode(text, "utf-8") + "&per_page=1&page=1");
-        br = new BufferedReader(new InputStreamReader(url.openStream(), "utf-8"));
-        rowText = readAll(br);
-        jsonObject = JSON.parseObject(rowText);
-        count = jsonObject.getInteger("total_count");
-        queue.add(new LanguageOrder("C++", count));
-
-        text = "in:name github.io in:description " + text + " language:HTML";
-        url = new URL(u + URLEncoder.encode(text, "utf-8") + "&per_page=1&page=1");
-        br = new BufferedReader(new InputStreamReader(url.openStream(), "utf-8"));
-        rowText = readAll(br);
-        jsonObject = JSON.parseObject(rowText);
-        count = jsonObject.getInteger("total_count");
-        queue.add(new LanguageOrder("HTML", count));
-
-        text = "in:name github.io in:description " + text + " language:Python";
-        url = new URL(u + URLEncoder.encode(text, "utf-8") + "&per_page=1&page=1");
-        br = new BufferedReader(new InputStreamReader(url.openStream(), "utf-8"));
-        rowText = readAll(br);
-        jsonObject = JSON.parseObject(rowText);
-        count = jsonObject.getInteger("total_count");
-        queue.add(new LanguageOrder("Python", count));
-
-        text = "in:name github.io in:description " + text + " language:JavaScript";
-        url = new URL(u + URLEncoder.encode(text, "utf-8") + "&per_page=1&page=1");
-        br = new BufferedReader(new InputStreamReader(url.openStream(), "utf-8"));
-        rowText = readAll(br);
-        jsonObject = JSON.parseObject(rowText);
-        count = jsonObject.getInteger("total_count");
-        queue.add(new LanguageOrder("JavaScript", count));
-
-        return queue;
-
     }
 
     public class LanguageOrder implements Comparable<LanguageOrder> {

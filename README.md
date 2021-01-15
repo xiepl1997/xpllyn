@@ -7,11 +7,11 @@
 * 资源下载
 * 个人博客
 * 访客留言
+* github page博客搜索
 
 正在开发的功能：
 * 聊天室
 * 资源共享
-* github page博客搜索
 
 主页截图：  
 ![image](https://github.com/xiepl1997/xpllyn/blob/master/screenshot/xpllyn1.png)

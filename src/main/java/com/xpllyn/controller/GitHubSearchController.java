@@ -35,8 +35,10 @@ public class GitHubSearchController {
 
     @RequestMapping("/search")
     @ResponseBody
-    public Map<String, Object> search(@RequestParam("q") String q, @RequestParam("page") int page) {
-        JSONObject jsonObject = searchUtil.readJsonFromUrl(q, page);
+    public Map<String, Object> search(@RequestParam("q") String q,
+                                      @RequestParam("page") int page,
+                                      @RequestParam("otherConditions") String otherConditions) {
+        JSONObject jsonObject = searchUtil.readJsonFromUrl(q, page, otherConditions);
 
         // 获取所有的GitHubProject
         JSONArray repositoryArray  = jsonObject.getJSONArray("items");
@@ -49,7 +51,7 @@ public class GitHubSearchController {
             if (name.length() >= 9 && name.substring(name.length() - 9).equals("github.io")) {
                 repositoryList.get(i).setIo_url("http://" + name);
             }
-            if (description.length() > 200) {
+            if (description != null && description.length() > 200) {
                 repositoryList.get(i).setDescription(description.substring(0, 200) + "...");
             }
 
@@ -60,27 +62,11 @@ public class GitHubSearchController {
 //        //保存一天
 //        cookie.setMaxAge(24*60*60);
 
-        Queue queue = null;
-        List list = null;
-        if (page == 1) {
-            try {
-                queue = searchUtil.getLanguageOrder(q);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            list = new ArrayList();
-            while (!queue.isEmpty()) {
-                list.add(queue.poll());
-            }
-        }
-
         // 总页数，每页10个结果
         int page_count = (int)Math.ceil(repository_count / 10.0);
 
         Map<String, Object> map = new HashMap<>();
         map.put("repositoryList", repositoryList);
-        map.put("language_order", list);
         map.put("repository_count", repository_count);
         map.put("page_count", page_count);
         return map;

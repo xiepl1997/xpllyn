@@ -53,9 +53,14 @@
     </div>
 
     <div class="row clearfix" style="padding-top: 20px;">
-        <div id="content" class="col-md-12" style="text-align: center"></div>
-        <div id="classification" class="col-md-2"></div>
-        <div id="items" class="col-md-8"></div>
+        <div class="col-md-2">
+            <div id="classification"></div>
+            <div id="orderOption"></div>
+        </div>
+        <div class="col-md-8">
+            <div id="content" style="text-align: center"></div>
+            <div id="items"></div>
+        </div>
         <div class="col-md-2"></div>
     </div>
 
@@ -87,6 +92,8 @@
 <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jq-paginator.js"></script>
 <script type="text/javascript">
+    var text_history = '';
+    var conditions = '';
     $(document).ready(function () {
         $(document).on('click', '.buttonx', function () {
             var text = $('#search_text').val().trim();
@@ -95,8 +102,10 @@
             }
             var param = {
                 q : text,
-                page : 1
+                page : 1,
+                otherConditions : ''
             };
+            text_history = text;
             $.ajax({
                 url : '/GitHubPageSearch/search',
                 type : 'GET',
@@ -109,39 +118,17 @@
                 success : function (data) {
                     var pList = data.repositoryList;
                     var repository_count = data.repository_count;
-                    var language_order = data.language_order;
                     if (repository_count == 0) {
                         $('#content').html("<div><h2 style='color: white'>We couldn’t find any repositories matching</h2></div>");
                     } else {
                         $('#content').html('');
-                        var len = pList.length;
 
-                        var html1 = "<ul class='list-group'>" +
-                            "<li class='list-group-item'>Repositories<span class='badge'>" + repository_count + "</span></li>";
-                        for (var i = 0; i < language_order.length; i++) {
-                            html1 += "<li class='list-group-item'>" + language_order[i].language + "<span class='badge'>" + language_order[i].count + "</span></li>";
-                        }
-                        html1 += "</ul>";
-                        $('#classification').html(html1);
+                        showRepositoriesCount(repository_count);
+                        showOrderPanel();
+                        showItems(pList);
 
-                        var html2 = "<ul class='list-group'>";
-                        for (var i = 0; i < len; i++) {
-                            html2 += "<li class='list-group-item'>" +
-                                "<a href='http://github.com/" + pList[i].full_name + "' target='_blank'>📚 " + pList[i].full_name + "</a>";
-                            if (pList[i].description != null)
-                                html2 += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + pList[i].description + "</p>";
-                            html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>⭐" + pList[i].stargazers_count + "</span>";
-                            if (pList[i].language != null)
-                                html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>🔹" + pList[i].language + "</span>";
-                            html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>Updated on " + timeformat(pList[i].updated_at) + "</span>";
-                            if (pList[i].io_url != null)
-                                html2 += "&nbsp;&nbsp;&nbsp;&nbsp;🌎<a href='" + pList[i].io_url + "' target='_blank'>GitHub Page</a>";
-                            html2 += "</li>";
-                        }
-                        html2 += "</ul>";
-                        $('#items').html(html2);
                         $('#paginationContainer').removeAttr('hidden');
-                        initPaginator(data.page_count, text);
+                        initPaginator(data.page_count);
 
                     }
 
@@ -158,8 +145,51 @@
         $(document).on('keyup', '#search_text', function (event) {
             if (event.keyCode == 13)
                 $('.buttonx').get(0).click();
-        })
+        });
+
+        $(document).on('click', '#o1', function () {
+            conditions = '';
+            orderAjax();
+        });
+
+        $(document).on('click', '#o2', function () {
+            conditions = 'general_match';
+            orderAjax();
+        });
+
+        $(document).on('click', '#o3', function () {
+            conditions = '&order=desc&sort=stars';
+            orderAjax();
+        });
+
+        $(document).on('click', '#o4', function () {
+            conditions = '&order=desc&sort=forks';
+            orderAjax();
+        });
+
+        $(document).on('click', '#o5', function () {
+            conditions = '&order=desc&sort=updated';
+            orderAjax();
+        });
     });
+
+    function showRepositoriesCount(repository_count) {
+        var html1 = "<ul class='list-group'>" +
+            "<li class='list-group-item'>Repositories<span class='badge'>" + repository_count + "</span></li></ul>";
+        $('#classification').html(html1);
+    }
+
+    function showOrderPanel() {
+        var html2 = "<div class='list-group'>" +
+            "<a class='list-group-item active' href='#'>Sort by: </a>" +
+            "<a id='o1' class='list-group-item' href='#'>GitHub Page first</a>" +
+            "<a id='o2' class='list-group-item' href='#'>General match</a>" +
+            "<a id='o3' class='list-group-item' href='#'>Most stars</a>" +
+            "<a id='o4' class='list-group-item' href='#'>Most forks</a>" +
+            "<a id='o5' class='list-group-item' href='#'>Recently updated</a>" +
+            "</div>";
+        $('#orderOption').html(html2);
+    }
 
     function timeformat(time) {
         var date = new Date(time);
@@ -167,12 +197,57 @@
         return date.getFullYear() + '-' + m + '-' + date.getDay();
     }
 
+    function showItems(pList) {
+        var len = pList.length;
+        var html3 = "<ul class='list-group'>";
+        for (var i = 0; i < len; i++) {
+            html3 += "<li class='list-group-item'>" +
+                "<a href='http://github.com/" + pList[i].full_name + "' target='_blank'>📚 " + pList[i].full_name + "</a>";
+            html3 += "<p>";
+            if (pList[i].description != null)
+                html3 += "&nbsp;&nbsp;&nbsp;&nbsp;" + pList[i].description;
+            html3 += "</p>&nbsp;&nbsp;&nbsp;&nbsp;<span>⭐" + pList[i].stargazers_count + "</span>";
+            if (pList[i].language != null)
+                html3 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>🔹" + pList[i].language + "</span>";
+            html3 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>Updated on " + timeformat(pList[i].updated_at) + "</span>";
+            if (pList[i].io_url != null)
+                html3 += "&nbsp;&nbsp;&nbsp;&nbsp;🌎<a href='" + pList[i].io_url + "' target='_blank'>GitHub Page</a>";
+            html3 += "</li>";
+        }
+        html3 += "</ul>";
+        $('#items').html(html3);
+    }
+
+    function orderAjax() {
+        $.ajax({
+            url: '/GitHubPageSearch/search',
+            data: {q : text_history, page : 1, otherConditions : conditions},
+            type: 'GET',
+            contentType: 'application/x-www-form-urlencoded',
+            beforeSend: function () {
+                var html = "<div id='circle'></div>";
+                $('#content').html(html);
+            },
+            success: function (data) {
+                $('#content').html('');
+                var pList = data.repositoryList;
+                showItems(pList);
+                initPaginator(data.page_count);
+            },
+            complete: function (XMLHttpRequest, status) {
+                if (status == 'timeout' || status == 'error') {
+                    $('#content').html("<div><h2 style='color: white'>We couldn’t find any repositories matching</h2></div>");
+                }
+            }
+        })
+    }
+
     /**
      * 分页初始化
      * @param page_count 总页数
      * @param text 用户查询输入
      */
-    function initPaginator(page_count, text) {
+    function initPaginator(page_count) {
         var is_first = true;
         $('#pagination').jqPaginator({
             currentPage: 1,
@@ -190,7 +265,7 @@
                 }
                 $.ajax({
                     url: '/GitHubPageSearch/search',
-                    data: {q : text, page : page},
+                    data: {q : text_history, page : page, otherConditions : conditions},
                     type: 'GET',
                     contentType: 'application/x-www-form-urlencoded',
                     beforeSend: function () {
@@ -199,24 +274,9 @@
                     },
                     success: function (data) {
                         $('#content1').html('');
+                        $('#content').html('');
                         var pList = data.repositoryList;
-                        var len = pList.length;
-                        var html2 = "<ul class='list-group'>";
-                        for (var i = 0; i < len; i++) {
-                            html2 += "<li class='list-group-item'>" +
-                                "<a href='http://github.com/" + pList[i].full_name + "' target='_blank'>📚 " + pList[i].full_name + "</a>";
-                            if (pList[i].description != null)
-                                html2 += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + pList[i].description + "</p>";
-                            html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>⭐" + pList[i].stargazers_count + "</span>";
-                            if (pList[i].language != null)
-                                html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>🔹" + pList[i].language + "</span>";
-                            html2 += "&nbsp;&nbsp;&nbsp;&nbsp;<span>Updated on " + timeformat(pList[i].updated_at) + "</span>";
-                            if (pList[i].io_url != null)
-                                html2 += "&nbsp;&nbsp;&nbsp;&nbsp;🌎<a href='" + pList[i].io_url + "' target='_blank'>GitHub Page</a>";
-                            html2 += "</li>";
-                        }
-                        html2 += "</ul>";
-                        $('#items').html(html2);
+                        showItems(pList);
                         $('html, body').animate({scrollTop: $('#bg').offset().top}, 'slow');
                     },
                     complete: function (XMLHttpRequest, status) {
