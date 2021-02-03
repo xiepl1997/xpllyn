@@ -12,14 +12,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MyWebConfigurer implements WebMvcConfigurer {
 
-//    /**
-//     * 配置视图映射
-//     * @param registry
-//     */
-//    @Override
-//    public void addViewControllers(ViewControllerRegistry registry) {
-//
-//    }
+    /**
+     * 配置视图映射
+     * @param registry
+     */
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login.html").setViewName("login");
+        registry.addViewController("/homepage.html").setViewName("homepage");
+    }
 //
 //    /**
 //     * 配置拦截路径，拦截controller中的请求路径

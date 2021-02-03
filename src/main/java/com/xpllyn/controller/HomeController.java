@@ -2,11 +2,14 @@ package com.xpllyn.controller;
 
 import com.xpllyn.pojo.Book;
 import com.xpllyn.pojo.Message;
+import com.xpllyn.pojo.User;
 import com.xpllyn.service.impl.MessageService;
 import com.xpllyn.utils.BlogUtils;
 import com.xpllyn.utils.BookUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -74,11 +77,5 @@ public class HomeController {
         return mv;
     }
 
-    @RequestMapping("/chatroom")
-    public ModelAndView gotoChatRoom() {
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("tab_index", 2);
-        mv.setViewName("chat_room");
-        return mv;
-    }
+
 }

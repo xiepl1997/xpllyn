@@ -42,3 +42,26 @@
     font-size: 10px;
     background-color: rgba(0,0,0,0.3);
 }
+
+.modbg{
+    background: url("../images/githubpagesearchbg.jpg");
+    background-position: center center;
+    background-size: cover;
+    position: fixed;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+body{
+    display:inline-block;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    padding-top: 40px;
+}
+
+html, body{
+    height: 100%;
+    overflow: auto;
+}

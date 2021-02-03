@@ -6,6 +6,7 @@ import java.sql.Timestamp;
  * User pojo created at 2019/7/22 by Peiliang Xie
  */
 public class User {
+    private int id;
     private String user_email;
     private String user_pw;
     private Timestamp user_last_login;
@@ -16,9 +17,18 @@ public class User {
     private Timestamp create_time;
     private Timestamp update_time;
 
+    public User() {}
+
     public User(String user_email, String user_pw) {
         this.user_email = user_email;
         this.user_pw = user_pw;
+    }
+
+    public User(String user_email, String user_name, String user_pw, String user_sex) {
+        this.user_email = user_email;
+        this.user_pw = user_pw;
+        this.user_name = user_name;
+        this.user_sex = user_sex;
     }
 
     public User(String user_email, String user_pw, Timestamp user_last_login, String user_name, String user_sex,
@@ -32,6 +42,14 @@ public class User {
         this.user_address = user_address;
         this.create_time = create_time;
         this.update_time = update_time;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUser_email() {

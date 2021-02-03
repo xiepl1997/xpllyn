@@ -1,0 +1,82 @@
+.modbg{
+    background: url("../images/githubpagesearchbg.jpg");
+    background-position: center center;
+    background-size: cover;
+    position: fixed;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+html, body{
+    height: 100%;
+    overflow: auto;
+}
+/*设置背景样式*/
+body{
+    display:inline-block;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    padding-top: 40px;
+}
+
+.buttom {
+    text-align: center;
+    padding-left: 30px;
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    font-size: 10px;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.chatComponent {
+    margin: 0 auto;
+    width: 750px;
+    background: #444753;
+    border-radius: 5px;
+}
+
+.people-list {
+    width: 30%;
+    float: left;
+}
+
+.people-list .search {
+    padding: 20px;
+}
+
+.people-list input {
+    border-radius: 3px;
+    border: none;
+    padding: 14px;
+    color: white;
+    background: #6A6C75;
+    width: 90%;
+    font-size: 14px;
+}
+
+.search_text {
+    outline: none;
+    border: 2px solid #a7aab5;
+    height: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    text-indent: 6px;
+    font-size: 13px;
+    padding: 5px;
+    border-radius: 10px 10px 10px 10px;
+}
+/* 输入框聚焦 */
+input:focus {
+    color: #000;
+    background-color: #fff;
+    border-color: #4e6ef2 !important;
+    border-radius: 10px 10px 10px 10px;
+}
+
+

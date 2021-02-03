@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css">
 </head>
-<body style="padding-top: 70px;">
+<body class="modbg" style="padding-top: 70px;">
 <!--    登陆-->
     <div class="container" style="margin-top: 50px">
         <div th:replace="commons/navigation :: navigation"></div>
@@ -25,8 +25,9 @@
                     </h2>
                     <form id="LoginForm" role="form" method="post" action="/login">
                         <div class="form-group">
-                            <label for="exampleInputId">邮箱</label><input name="id" type="email" class="form-control" id="exampleInputId" required/>
+                            <label for="exampleInputId">邮箱</label><input name="email" type="email" class="form-control" id="exampleInputId" required/>
                             <label for="exampleInputPassword">密码</label><input name="password" type="password" class="form-control" id="exampleInputPassword" required minlength="6"/>
+                            <span><input type="checkbox" name="rememberMe" value="false"/>记住我</span>
                         </div>
                         <button id="LoginButton" type="submit" class="btn btn-info">进入</button>&nbsp;&nbsp;
                         <a href="javascript:void(0)" onclick="ShowRegister()">注册</a>
@@ -43,17 +44,16 @@
             <div class="col-lg-6 colume">
                 <div id="j2" class="jumbotron">
                     <h3 style="font-family: 华文琥珀;">注册</h3>
-                    <form id="RegisterForm" role="form" method="post" action="/register" onsubmit="return RegisterCheck()">
+                    <form id="RegisterForm" role="form" method="post" action="/register">
                         <div class="form-group">
-                            <label for="exampleInputId1">邮箱</label><input name="id" type="email" class="form-control" id="exampleInputId1" required/>
+                            <label for="exampleInputId1">邮箱</label><input name="email" type="email" class="form-control" id="exampleInputId1" required/>
                             <label for="InputName">姓名</label><input name="name" type="text" class="form-control" id="InputName" required/>
                             <label for="exampleInputPassword1">密码</label><input name="password" type="password" class="form-control" id="exampleInputPassword1" required minlength="6" />
-                            <label for="InputRepeatPassword">重复密码</label><input name="password" type="password" class="form-control" id="InputRepeatPassword" required minlength="6" />
+                            <label for="InputRepeatPassword">重复密码</label><input name="password1" type="password" class="form-control" id="InputRepeatPassword" required minlength="6" />
                             <p id="msg_pwd" style="font-family: 等线;border-radius: 5px;"></p>
-                            <label for="InputPhone">电话号码</label><input name="phone" type="text" size="11" class="form-control" id="InputPhone" required minlength="11" maxlength="11" />
                             <label class="control-label">性别</label><br>
-                            <label class="radio-inline"><input class="n" name="type" type="radio" value="man" checked>男</label>
-                            <label class="radio-inline"><input class="n" name="type" type="radio" value="woman">女</label>
+                            <label class="radio-inline"><input class="n" name="sex" type="radio" value="man" checked>男</label>
+                            <label class="radio-inline"><input class="n" name="sex" type="radio" value="woman">女</label>
                         </div>
                         <button id="RegisterButton" type="submit" class="btn btn-info">注册并进入</button>
                     </form>
