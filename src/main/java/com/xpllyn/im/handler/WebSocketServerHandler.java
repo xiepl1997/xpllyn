@@ -23,9 +23,6 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
     @Autowired
     private ChatService chatService;
 
-    @Autowired
-    private UserService userService;
-
     /**
      * 读取完连接的消息后，对消息进行处理
      * @param ctx

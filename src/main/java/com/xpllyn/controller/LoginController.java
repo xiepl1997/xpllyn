@@ -50,7 +50,7 @@ public class LoginController {
         String name = request.getParameter("name");
         String pwd = request.getParameter("password");
         String sex = request.getParameter("sex");
-        String icon = "chat/img/" + String.valueOf(new Random(100).nextInt(7) + 1) + ".jpg";
+        String icon = "chat/img/" + String.valueOf(new Random(11).nextInt(7) + 1) + ".jpg";
         boolean flag = userService.addNewUser(email, name, pwd, sex, icon);
         if (!flag) {
             model.addAttribute("msg", "该email已经使用！");

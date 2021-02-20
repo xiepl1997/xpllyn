@@ -115,7 +115,7 @@
         window.WebSocket = window.MozWebSocket;
     }
     if (window.WebSocket) {
-        socket = new WebSocket("ws://localhost:3333");
+        socket = new WebSocket("ws://www.xpllyn.com:3333");
         socket.onopen = function () {
             var param = {
                 id: $('.user').attr('name'),
