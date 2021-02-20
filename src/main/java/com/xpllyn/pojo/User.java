@@ -1,17 +1,19 @@
 package com.xpllyn.pojo;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * User pojo created at 2019/7/22 by Peiliang Xie
  */
-public class User {
+public class User implements Serializable {
     private int id;
     private String user_email;
     private String user_pw;
     private Timestamp user_last_login;
     private String user_name;
     private String user_sex;
+    private String user_icon;
     private String user_phone;
     private String user_address;
     private Timestamp create_time;
@@ -32,16 +34,25 @@ public class User {
     }
 
     public User(String user_email, String user_pw, Timestamp user_last_login, String user_name, String user_sex,
-                String user_phone, String user_address, Timestamp create_time, Timestamp update_time) {
+                String user_icon, String user_phone, String user_address, Timestamp create_time, Timestamp update_time) {
         this.user_email = user_email;
         this.user_pw = user_pw;
         this.user_last_login = user_last_login;
         this.user_name = user_name;
         this.user_sex = user_sex;
+        this.user_icon = user_icon;
         this.user_phone = user_phone;
         this.user_address = user_address;
         this.create_time = create_time;
         this.update_time = update_time;
+    }
+
+    public String getUser_icon() {
+        return user_icon;
+    }
+
+    public void setUser_icon(String user_icon) {
+        this.user_icon = user_icon;
     }
 
     public int getId() {

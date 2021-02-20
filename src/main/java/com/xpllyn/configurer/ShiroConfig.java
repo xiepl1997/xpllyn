@@ -2,15 +2,17 @@ package com.xpllyn.configurer;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.codec.Base64;
-import org.apache.shiro.crypto.hash.Hash;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.util.ThreadContext;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -40,12 +42,13 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/GitHubPageSearch/**", "anon");
         filterChainDefinitionMap.put("/", "anon");
         filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/loginpage", "anon");
         filterChainDefinitionMap.put("/insertMessage", "anon");
         filterChainDefinitionMap.put("/getAllMessages", "anon");
         filterChainDefinitionMap.put("/register", "anon");
         filterChainDefinitionMap.put("/user/**", "anon");
         filterChainDefinitionMap.put("/chatroom/**", "user");
-        // 配置登出过滤器，具体已被实现
+        // 配置登出过滤器
         filterChainDefinitionMap.put("/logout", "logout");
         // 过滤链定义，从上到下顺序执行，一般将/**放在最下面
         // authc：所有url都必须认证通过才可以访问；anon：所有url都可以匿名访问
@@ -53,6 +56,7 @@ public class ShiroConfig {
 
         // 如果不设置，会自动寻找web工程目录下的index
         shiroFilterFactoryBean.setLoginUrl("/loginpage");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/loginpage");
         shiroFilterFactoryBean.setSuccessUrl("/chatroom");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
@@ -81,10 +85,19 @@ public class ShiroConfig {
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setSessionManager(sessionManager());
         securityManager.setRealm(myShiroRealm());
         //将cookie管理器交给SecurityManager进行管理
         securityManager.setRememberMeManager(rememberMeManager());
+        ThreadContext.bind(securityManager);
         return securityManager;
+    }
+
+    @Bean
+    public DefaultWebSessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setSessionIdUrlRewritingEnabled(false);
+        return sessionManager;
     }
 
     /**
@@ -106,6 +119,7 @@ public class ShiroConfig {
      * cookie管理对象，记住我的功能
      * @return
      */
+    @Bean
     public CookieRememberMeManager rememberMeManager() {
         CookieRememberMeManager manager = new CookieRememberMeManager();
         manager.setCookie(rememberMeCookie());

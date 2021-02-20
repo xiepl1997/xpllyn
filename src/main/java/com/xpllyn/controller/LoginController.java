@@ -6,12 +6,15 @@
 package com.xpllyn.controller;
 
 import com.xpllyn.pojo.User;
+import com.xpllyn.service.impl.ChatService;
 import com.xpllyn.service.impl.UserService;
+import com.xpllyn.utils.Constant;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.SessionException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,18 +25,22 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Random;
 
 @Controller
 public class LoginController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ChatService chatService;
+
     @RequestMapping("/loginpage")
-    public ModelAndView loginPage(){
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("tab_index", 5);
-        mv.setViewName("login");
-        return mv;
+    public String loginPage(){
+//        mv.addObject("tab_index", 5);
+//        mv.setViewName("login");
+        return "login";
     }
 
     @RequestMapping("/register")
@@ -43,7 +50,8 @@ public class LoginController {
         String name = request.getParameter("name");
         String pwd = request.getParameter("password");
         String sex = request.getParameter("sex");
-        boolean flag = userService.addNewUser(email, name, pwd, sex);
+        String icon = "chat/img/" + String.valueOf(new Random(100).nextInt(7) + 1) + ".jpg";
+        boolean flag = userService.addNewUser(email, name, pwd, sex, icon);
         if (!flag) {
             model.addAttribute("msg", "该email已经使用！");
             return "login";
@@ -78,4 +86,23 @@ public class LoginController {
         }
         return "redirect:/chatroom";
     }
+
+//    @RequestMapping("/logout")
+//    public String logout() {
+//        // 通知在线好友我已下线
+//        User user = (User) SecurityUtils.getSubject().getPrincipal();
+//        List<User> friends = userService.findFriends(user.getId());
+//        List<Integer> onlineFriendIds = userService.findOnlineFriendIds(friends);
+//        for (int id : onlineFriendIds) {
+//            chatService.offlineNotify(user.getId(), Constant.onlineUser.get(id));
+//        }
+//
+//        Subject subject = getSubject(request, response);
+//        try {
+//            subject.logout();
+//        } catch (SessionException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
 }

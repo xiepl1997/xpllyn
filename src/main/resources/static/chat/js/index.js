@@ -1,5 +1,5 @@
-document.querySelector('.chat[data-chat=person2]').classList.add('active-chat');
-document.querySelector('.person[data-chat=person2]').classList.add('active');
+document.querySelector('.chat[data-chat=group]').classList.add('active-chat');
+document.querySelector('.person[data-chat=group]').classList.add('active');
 
 var friends = {
   list: document.querySelector('ul.people'),
@@ -28,4 +28,7 @@ function setAciveChat(f) {
   chat.container.querySelector('[data-chat="' + chat.person + '"]').classList.add('active-chat');
   friends.name = f.querySelector('.name').innerText;
   chat.name.innerHTML = friends.name;
+  // 使聊天界面定位到最底部
+  chat.current = chat.container.querySelector('.active-chat');
+  chat.current.scrollTop = chat.current.scrollHeight;
 }

@@ -191,11 +191,11 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 600;
 }
-.container1 .right .chat {
+.container1 .right .chatbody .chat {
   position: relative;
   display: none;
   padding: 0 35px 92px;
-  border-width: 1px 1px 1px 0;
+  border-width: 0 1px 1px 0;
   border-style: solid;
   border-color: var(--light);
   width: 100%;
@@ -206,54 +206,18 @@ body {
   justify-content: flex-end;
   flex-direction: column;
 }
-.container1 .right .chat.active-chat {
+.container1 .right .chatbody .chat.active-chat {
   /*display: block;*/
   /*display: flex;*/
     display: inline-block;
 }
-.container1 .right .chat.active-chat .bubble {
+.container1 .right .chatbody .chat.active-chat .bubble {
   transition-timing-function: cubic-bezier(0.4, -0.04, 1, 1);
 }
-.container1 .right .chat.active-chat .bubble:nth-of-type(1) {
-  -webkit-animation-duration: 0.15s;
-          animation-duration: 0.15s;
-}
-.container1 .right .chat.active-chat .bubble:nth-of-type(2) {
-  -webkit-animation-duration: 0.3s;
-          animation-duration: 0.3s;
-}
-.container1 .right .chat.active-chat .bubble:nth-of-type(3) {
-  -webkit-animation-duration: 0.45s;
-          animation-duration: 0.45s;
-}
-.container1 .right .chat.active-chat .bubble:nth-of-type(4) {
-  -webkit-animation-duration: 0.6s;
-          animation-duration: 0.6s;
-}
-.container1 .right .chat.active-chat .bubble:nth-of-type(5) {
-  -webkit-animation-duration: 0.75s;
-          animation-duration: 0.75s;
-}
-.container1 .right .chat.active-chat .bubble:nth-of-type(6) {
-  -webkit-animation-duration: 0.9s;
-          animation-duration: 0.9s;
-}
-.container1 .right .chat.active-chat .bubble:nth-of-type(7) {
-  -webkit-animation-duration: 1.05s;
-          animation-duration: 1.05s;
-}
-.container1 .right .chat.active-chat .bubble:nth-of-type(8) {
-  -webkit-animation-duration: 1.2s;
-          animation-duration: 1.2s;
-}
-.container1 .right .chat.active-chat .bubble:nth-of-type(9) {
-  -webkit-animation-duration: 1.35s;
-          animation-duration: 1.35s;
-}
-.container1 .right .chat.active-chat .bubble:nth-of-type(10) {
-  -webkit-animation-duration: 1.5s;
-          animation-duration: 1.5s;
-}
+/*.container1 .right .chatbody .chat.active-chat .bubble:nth-of-type(n) {*/
+/*  -webkit-animation-duration: 0.45s;*/
+/*          animation-duration: 0.45s;*/
+/*}*/
 .container1 .right .write {
   position: absolute;
     /*position: relative;*/
@@ -434,4 +398,18 @@ body {
   text-align: center;
   font-size: 10px;
   background-color: rgba(0,0,0,0.3);
+}
+
+#circle{
+    margin: 20px auto;
+    width: 45px;
+    height: 45px;
+    border: 5px white solid;
+    border-left-color: #ff5500;
+    border-right-color:#0c80fe;
+    border-radius: 100%;
+    animation: loading1 1s infinite linear;
+}
+@keyframes loading1{
+  from{transform: rotate(0deg)}to{transform: rotate(360deg)}
 }

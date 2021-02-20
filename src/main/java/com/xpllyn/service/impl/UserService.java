@@ -3,10 +3,13 @@ package com.xpllyn.service.impl;
 import com.xpllyn.mapper.UserMapper;
 import com.xpllyn.pojo.User;
 import com.xpllyn.service.IUserService;
+import com.xpllyn.utils.Constant;
 import com.xpllyn.utils.EncryptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -20,14 +23,14 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean addNewUser(String user_email, String user_name, String user_pw, String user_sex) {
+    public boolean addNewUser(String user_email, String user_name, String user_pw, String user_sex, String user_icon) {
         User user = userMapper.findByEmail(user_email);
         if (user != null) {
             return false;
         }
         EncryptionUtils encryptionUtils = new EncryptionUtils();
         String pwd = encryptionUtils.encryption(user_pw);
-        userMapper.addNewUser(user_email, user_name, pwd, user_sex);
+        userMapper.addNewUser(user_email, user_name, pwd, user_sex, user_icon);
         return true;
     }
 
@@ -49,5 +52,26 @@ public class UserService implements IUserService {
     @Override
     public User findByEmail(String user_email) {
         return userMapper.findByEmail(user_email);
+    }
+
+    @Override
+    public List<User> findFriends(int id) {
+        return userMapper.findFriends(id);
+    }
+
+    @Override
+    public List<User> findByIdOrEmail(String idOrEmail) {
+        return userMapper.findByIdOrEmail(idOrEmail);
+    }
+
+    @Override
+    public List<Integer> findOnlineFriendIds(List<User> users) {
+        List<Integer> onlineFriendIds = new ArrayList<>();
+        for (User user : users) {
+            if (Constant.onlineUser.containsKey(String.valueOf(user.getId()))) {
+                onlineFriendIds.add(user.getId());
+            }
+        }
+        return onlineFriendIds;
     }
 }
