@@ -64,26 +64,6 @@
                     <span th:each="friend:${friends}">
                         <div class="chat" th:data-chat="${friend.id}"></div>
                     </span>
-                    <!--                    <div class="chat" data-chat="person1">-->
-                    <!--                        <div class="conversation-start">-->
-                    <!--                            <span>Monday, 1:27 PM</span>-->
-                    <!--                        </div>-->
-                    <!--                        <div class="bubble you">-->
-                    <!--                            So, how's your new phone?-->
-                    <!--                        </div>-->
-                    <!--                        <div class="bubble you">-->
-                    <!--                            You finally have a smartphone :D-->
-                    <!--                        </div>-->
-                    <!--                        <div class="bubble me">-->
-                    <!--                            Drake?-->
-                    <!--                        </div>-->
-                    <!--                        <div class="bubble me">-->
-                    <!--                            Why aren't you answering?-->
-                    <!--                        </div>-->
-                    <!--                        <div class="bubble you">-->
-                    <!--                            howdoyoudoaspace-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
                 </div>
                 <div class="write">
                     <a href="javascript:;" class="write-link attach"></a>
@@ -105,6 +85,20 @@
             </div>
             <div class="modal-body">
                 <span id="friendsSearchResult"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" role="dialog" id="modal-addFriend-request" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">好友请求</h4>
+            </div>
+            <div class="modal-body">
+                <span id="requestList"></span>
             </div>
         </div>
     </div>
@@ -143,6 +137,9 @@
                     case "GROUP_SENDING_All":
                         ws.groupReceiveAll(json.data);
                         break;
+                    case "AGREE_FRIEND_REQUEST":
+                        addPerson(json.data);
+                        break;
                     default:
                         break;
                 }
@@ -151,12 +148,12 @@
         socket.onclose = function (event) {
             socket.close();
             alert('连接已断开！');
-            window.location.replace('http://localhost:8080/loginpage');
+            window.location.replace('http://www.xpllyn.com/loginpage');
         };
         socket.onerror = function (event) {
             socket.close();
             alert('发生错误！');
-            window.location.replace('http://localhost:8080/loginpage');
+            window.location.replace('http://www.xpllyn.com/loginpage');
         };
     } else {
         alert("您的浏览器不支持WebSocket！");

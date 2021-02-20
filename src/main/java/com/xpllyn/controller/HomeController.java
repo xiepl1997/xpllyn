@@ -41,8 +41,8 @@ public class HomeController {
 //        List bookList = null;
         List bookList = null;
         try {
-            bookList = bookUtil.getFileName("C:\\Users\\xiepl\\Desktop");
-//            bookList = bookUtil.getFileName("/opt/book");
+//            bookList = bookUtil.getFileName("C:\\Users\\xiepl\\Desktop");
+            bookList = bookUtil.getFileName("/opt/book");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

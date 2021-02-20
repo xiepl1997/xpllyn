@@ -104,6 +104,31 @@ public class ChatService implements IChatService {
         Constant.onlineUser.put(id, ctx);
     }
 
+    /**
+     * 同意好友请求后发送消息给新好友更新UI
+     * @param param
+     * @param ctx
+     */
+    @Override
+    public void agreeResponse(JSONObject param, ChannelHandlerContext ctx) {
+        String fromUserId = (String) param.get("fromUserId");
+        String toUserId = (String) param.get("toUserId");
+        String user_icon = (String) param.get("user_icon");
+        String user_name = (String) param.get("user_name");
+        String time = (String) param.get("time");
+
+        String responseJson = new ResponseJson().success()
+                .setData("id", fromUserId)
+                .setData("toUserId", toUserId)
+                .setData("user_icon", user_icon)
+                .setData("user_name", user_name)
+                .setData("preview", "我们已经是好友啦，一起聊天吧！")
+                .setData("time", time)
+                .setData("type", ChatType.AGREE_FRIEND_REQUEST)
+                .toString();
+        sendMessage(Constant.onlineUser.get(toUserId), responseJson);
+    }
+
     @Override
     public void remove(ChannelHandlerContext ctx) {
         Iterator<Map.Entry<String, ChannelHandlerContext>> iterator =

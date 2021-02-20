@@ -18,4 +18,6 @@ public interface IChatService {
     void typeError(ChannelHandlerContext ctx);
 
     void offlineNotify(int fromUserId, ChannelHandlerContext ctx);
+
+    void agreeResponse(JSONObject param, ChannelHandlerContext ctx);
 }

@@ -7,6 +7,7 @@ import com.xpllyn.utils.Constant;
 import com.xpllyn.utils.EncryptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,5 +74,38 @@ public class UserService implements IUserService {
             }
         }
         return onlineFriendIds;
+    }
+
+    @Override
+    public List<User> getSendAddRequestUsers(int id) {
+        return userMapper.getSendAddRequestUsers(id);
+    }
+
+    @Override
+    public boolean sendAddFriendRequest(int fromId, int toId) {
+        return userMapper.sendAddFriendRequest(fromId, toId);
+    }
+
+    @Override
+    public int getAddFriendRequest(int fromId, int toId) {
+        return userMapper.getAddFriendRequest(fromId, toId);
+    }
+
+    @Override
+    @Transactional
+    public boolean agreeAddRequest(int fromId, int toId) {
+        userMapper.agreeAddRequest(fromId, toId);
+        userMapper.addFriend(fromId, toId);
+        return userMapper.addFriend(toId, fromId);
+    }
+
+    @Override
+    public boolean disagreeAddRequest(int fromId, int toId) {
+        return userMapper.disagreeAddRequest(fromId, toId);
+    }
+
+    @Override
+    public List<Integer> findFriendIds(int id) {
+        return userMapper.findFriendIds(id);
     }
 }

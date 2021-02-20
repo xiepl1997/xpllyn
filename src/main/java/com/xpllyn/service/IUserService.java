@@ -23,4 +23,15 @@ public interface IUserService {
 
     List<Integer> findOnlineFriendIds(List<User> users);
 
+    List<User> getSendAddRequestUsers(int id);
+
+    boolean sendAddFriendRequest(int fromId, int toId);
+
+    int getAddFriendRequest(int fromId, int toId);
+
+    List<Integer> findFriendIds(int id);
+
+    boolean agreeAddRequest(int fromId, int toId);
+
+    boolean disagreeAddRequest(int fromId, int toId);
 }
