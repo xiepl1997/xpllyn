@@ -3,6 +3,9 @@
 博客和资源将持续更新，敬请关注~  
 传送门：http://www.xpllyn.com
 ---  
+个人网站项目。  
+使用spring-boot搭建，集合了博客、书籍下载、留言、github page查询、Netty网页聊天室等功能。  
+其中github page查询工具使用了github的api，聊天室使用Netty+Websocket搭建服务，使用Shiro安全框架实现身份验证/登录，采用MySql作为网站的数据库，实现了群聊、单聊、查询用户、添加好友等功能。
 目前已开发的功能：
 * 资源下载
 * 个人博客
