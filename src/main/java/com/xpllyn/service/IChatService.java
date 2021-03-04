@@ -1,7 +1,11 @@
 package com.xpllyn.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xpllyn.pojo.ChatMessage;
+import com.xpllyn.pojo.GroupMessage;
 import io.netty.channel.ChannelHandlerContext;
+
+import java.util.List;
 
 public interface IChatService {
 
@@ -20,4 +24,12 @@ public interface IChatService {
     void offlineNotify(int fromUserId, ChannelHandlerContext ctx);
 
     void agreeResponse(JSONObject param, ChannelHandlerContext ctx);
+
+    void insertGroupMessages(List<GroupMessage> groupMessages);
+
+    void insertChatMessages(List<ChatMessage> chatMessages);
+
+    List<GroupMessage> getGroupMessages();
+
+    List<ChatMessage> getChatMessages();
 }

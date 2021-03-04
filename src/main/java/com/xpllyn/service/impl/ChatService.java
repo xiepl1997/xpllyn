@@ -1,7 +1,10 @@
 package com.xpllyn.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xpllyn.mapper.ChatMapper;
+import com.xpllyn.pojo.ChatMessage;
 import com.xpllyn.pojo.Group;
+import com.xpllyn.pojo.GroupMessage;
 import com.xpllyn.pojo.User;
 import com.xpllyn.service.IChatService;
 import com.xpllyn.utils.ChatType;
@@ -11,6 +14,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,7 +26,7 @@ public class ChatService implements IChatService {
     private GroupService groupService;
 
     @Autowired
-    private UserService userService;
+    private ChatMapper chatMapper;
 
     @Override
     public void singleSend(JSONObject param, ChannelHandlerContext ctx) {
@@ -127,6 +131,40 @@ public class ChatService implements IChatService {
                 .setData("type", ChatType.AGREE_FRIEND_REQUEST)
                 .toString();
         sendMessage(Constant.onlineUser.get(toUserId), responseJson);
+    }
+
+    /**
+     * redis中存储的群消息持久化
+     * @param groupMessages
+     */
+    @Override
+    @Transactional
+    public void insertGroupMessages(List<GroupMessage> groupMessages) {
+        for (GroupMessage groupMessage : groupMessages) {
+            chatMapper.insertGroupMessage(groupMessage);
+        }
+    }
+
+    /**
+     * redis中存储的个人消息持久化
+     * @param chatMessages
+     */
+    @Override
+    @Transactional
+    public void insertChatMessages(List<ChatMessage> chatMessages) {
+        for (ChatMessage chatMessage : chatMessages) {
+            chatMapper.insertChatMessage(chatMessage);
+        }
+    }
+
+    @Override
+    public List<GroupMessage> getGroupMessages() {
+        return chatMapper.getGroupMessage();
+    }
+
+    @Override
+    public List<ChatMessage> getChatMessages() {
+        return chatMapper.getChatMessage();
     }
 
     @Override

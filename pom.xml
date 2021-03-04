@@ -74,6 +74,10 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.2.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

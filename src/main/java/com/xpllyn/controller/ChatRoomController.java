@@ -1,7 +1,11 @@
 package com.xpllyn.controller;
 
+import com.xpllyn.pojo.ChatMessage;
+import com.xpllyn.pojo.GroupMessage;
 import com.xpllyn.pojo.User;
+import com.xpllyn.service.impl.ChatService;
 import com.xpllyn.service.impl.UserService;
+import com.xpllyn.utils.RedisUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +25,12 @@ public class ChatRoomController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RedisUtils redisUtils;
+
+    @Autowired
+    private ChatService chatService;
+
     @RequestMapping("/chatroom")
     public ModelAndView gotoChatRoom(ModelAndView mv) {
         //获取用户姓名
@@ -33,6 +43,18 @@ public class ChatRoomController {
         List<User> friends = userService.findFriends(user.getId());
         // 获取在线好友id
         List<Integer> onlineFriendIds = userService.findOnlineFriendIds(friends);
+
+//        List<GroupMessage> gms = null;
+//        List<ChatMessage> cms = null;
+//        // 获取群聊消息
+//        if (redisUtils.exists("group")) {
+//            gms = redisUtils.getGroupMessage();
+//        } else {
+//            gms = chatService.getGroupMessages();
+//            for (GroupMessage gm : gms) {
+//                redisUtils.setGroupMessage(gm);
+//            }
+//        }
 
         mv.addObject("friends", friends);
         mv.addObject("online_friend_ids", onlineFriendIds);
