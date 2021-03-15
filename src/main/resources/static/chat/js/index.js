@@ -316,6 +316,10 @@ $(document).ready(function() {
     }
     var toId = $(this).attr('name');
     var fromId = $('.user').attr('name');
+    if (toId == fromId) {
+      alert("无法添加自己的为好友！");
+      return;
+    }
     var param = {
       'fromId' : fromId,
       'toId' : toId
