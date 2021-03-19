@@ -75,8 +75,8 @@ $(document).ready(function() {
 						    count = 8;
                         }
 						for(var i = 0; i < count; i++){
-							var span = Date.parse(messageList[i].create_time);
-							var dt = new Date(span);
+							// var span = Date.parse(messageList[i].create_time);
+							var dt = new Date(messageList[i].create_time);
 							var timeStr = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate() + ' ' + dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
 
 							htmls += "<a class=\"list-group-item\" style=\"cursor: pointer;border: 1px solid gray\">";
@@ -113,8 +113,8 @@ $(document).ready(function() {
             success: function (mList) {
                 var htmls = "";
                 for(var i = 0; i < mList.length; i++){
-					var span = Date.parse(mList[i].create_time);
-					var dt = new Date(span);
+					// var span = new Date(messageList[i].create_time);
+					var dt = new Date(mList[i].create_time);
 					var timeStr = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate() + ' ' + dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
 
 					if(i%2 == 0)
