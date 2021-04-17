@@ -28,15 +28,15 @@
                     <li class="person group_person" data-chat="group">
                         <img src="chat/img/groupicon.jpg" alt=""/>
                         <span class="name">全体用户聊天室</span>
-                        <span class="time">2:09 PM</span>
-                        <span class="preview">I was wondering...</span>
+                        <span class="time"></span>
+                        <span class="preview"></span>
                     </li>
                     <span th:each="friend:${friends}">
                         <li class="person" th:data-chat="${friend.id}">
                             <img th:src="${friend.user_icon}" alt=""/>
                             <span class="name" th:text="${friend.user_name}"></span>
-                            <span class="time">2:09 PM</span>
-                            <span class="preview">I was wondering...</span>
+                            <span class="time"></span>
+                            <span class="preview"></span>
                         </li>
                     </span>
                     <!--                    <li class="person" data-chat="person1">-->
