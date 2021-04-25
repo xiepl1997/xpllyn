@@ -11,6 +11,7 @@
 * 个人博客
 * 访客留言
 * github page博客搜索
+    * 利用了Github的开放API实现了GitHubPage博客搜索工具，给使用者提供了一种，能够找到并访问那些没有被常用搜索引擎收录的优质个人博客和站点的方式。
 * 聊天室（Netty + WebSocket）
     * Shiro登录认证
     * 群聊
