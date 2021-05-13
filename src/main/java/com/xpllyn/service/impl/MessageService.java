@@ -52,11 +52,13 @@ public class MessageService implements IMessageService {
         String[] province_city = messageInfoUtils.getAddressByIp(ip);
 
         String name = "";
-        //如果省和市名字一样（如北京市北京市）
-        if(province_city[0].equals(province_city[1])){
-            name = province_city[0];
+        if (province_city[0] == "") {
+            name = "未知地区";
         }
-        else {
+        //如果省和市名字一样（如北京市北京市）
+        else if(province_city[0].equals(province_city[1])){
+            name = province_city[0];
+        } else {
             name = province_city[0] + province_city[1];
         }
         name += "的朋友";
