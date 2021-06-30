@@ -6,6 +6,7 @@ import com.xpllyn.pojo.User;
 import com.xpllyn.service.impl.MessageService;
 import com.xpllyn.utils.BlogUtils;
 import com.xpllyn.utils.BookUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class HomeController {
 
     @Autowired
@@ -34,6 +36,8 @@ public class HomeController {
     //首页
     @RequestMapping("/")
     public ModelAndView home(HttpServletRequest request){
+
+        log.info("a new visitor coming.");
 
         ModelAndView mv = new ModelAndView();
 
