@@ -1,4 +1,4 @@
-package com.xpllyn.utils;
+package com.xpllyn.utils.im;
 
 public enum ChatType {
 

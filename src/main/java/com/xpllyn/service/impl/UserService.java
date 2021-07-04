@@ -3,7 +3,7 @@ package com.xpllyn.service.impl;
 import com.xpllyn.mapper.UserMapper;
 import com.xpllyn.pojo.User;
 import com.xpllyn.service.IUserService;
-import com.xpllyn.utils.Constant;
+import com.xpllyn.utils.im.Constant;
 import com.xpllyn.utils.EncryptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserService implements IUserService {

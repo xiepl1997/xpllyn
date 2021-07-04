@@ -1,20 +1,15 @@
 package com.xpllyn.im.handler;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xpllyn.pojo.User;
 import com.xpllyn.service.impl.ChatService;
-import com.xpllyn.service.impl.UserService;
-import com.xpllyn.utils.Constant;
-import com.xpllyn.utils.ResponseJson;
+import com.xpllyn.utils.im.Constant;
+import com.xpllyn.utils.im.ResponseJson;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.*;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @ChannelHandler.Sharable

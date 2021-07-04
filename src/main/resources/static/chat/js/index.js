@@ -200,28 +200,34 @@ var ws = {
 }
 
 function addMessageForGroupAll(data, who) {
-  var html = document.querySelector('.chat[data-chat=group]').innerHTML;
+  //var html = document.querySelector('.chat[data-chat=group]').innerHTML;
+  var html = document.querySelector('#global_chat_area').innerHTML;
   var msg;
   if (who === 'you') {
     msg = "<div class='bubble you'>" + data.content + "</div>";
   } else {
     msg = "<div class='bubble me'>" + data.content + "</div>";
   }
-  document.querySelector('.chat[data-chat=group]').innerHTML = html + msg;
-  var chat = document.querySelector('.chat[data-chat=group]')
+  document.querySelector('#global_chat_area').innerHTML = html + msg;
+  var chat = document.querySelector('.chat[data-chat=group]');
   gotoBottom(chat);
 }
 
 // 在聊天界面中追加消息
 function addMessage(data, who) {
-  var html = document.querySelector(".chat[data-chat='" + data.id + "']").innerHTML;
+  var uid = $('.user').attr('name');
+  var key = '#' + uid + '_' + data.id + '_area';
+  // var html = document.querySelector('#' + uid + '_' + data.id + '_area').innerHTML;
+  var html = $(key).html();
   var msg;
   if (who === 'you') {
     msg = "<div class='bubble you'>" + data.content + "</div>";
   } else {
     msg = "<div class='bubble me'>" + data.content + "</div>";
   }
-  document.querySelector(".chat[data-chat='" + data.id + "']").innerHTML = html + msg;
+  //document.querySelector('#' + uid + '_' + data.id + '_area').innerHTML = html + msg;
+  html += msg;
+  $(key).html(html);
   var chat = document.querySelector(".chat[data-chat='" + data.id + "']");
   gotoBottom(chat);
 }
@@ -362,6 +368,9 @@ $(document).ready(function() {
               "<button type='button' class='disagree btn btn-danger' name='" + data[i].id + "'>拒绝</button>" +
               "</div>";
         }
+        if (data == null || data.length == 0) {
+          html = "<div class='row' style='font-size: large;text-align: center'><strong>无</strong></div>";
+        }
         $('#requestList').html(html);
         $('#modal-addFriend-request').modal('show');
       }
@@ -384,6 +393,92 @@ $(document).ready(function() {
       success : function (data) {
         alert('已拒绝。');
         $('#modal-addFriend-request').modal('hide');
+      }
+    })
+  })
+
+  // 查看全局聊天界面中的“更多聊天记录”，分页获取20条
+  $(document).on('click', '.global_more_history', function () {
+    // 获取查询次数
+    var cnt = $(this).attr('cnt');
+    // 该聊天界面的查询记录次数+1
+    $(this).attr('cnt', Number(cnt) + 1);
+    var start = Number(cnt) * 20;
+    var param = {
+      'groupId' : '1',
+      'start' : start,
+      'count' : '20'
+    };
+    $.ajax({
+      url : '/chatroom/getGlobalHistory',
+      type : 'GET',
+      contentType: 'application/x-www-form-urlencoded',
+      data: param,
+      success : function (data) {
+        if (data == null || data.length == 0) {
+          return;
+        }
+        var len = data.length;
+        var html = '';
+        var userId = $('.user').attr('name');
+        var oldHtml = $('#global_chat_area').html();
+        for (var i = 0; i < len; i++) {
+          if (data[i].user_id != userId) {
+            html += "<div class=\"bubble you\">" + data[i].content + "</div>";
+          } else {
+            html += "<div class=\"bubble me\">" + data[i].content + "</div>";
+          }
+        }
+        // 如果是第一次查询（cnt=0），直接覆盖原html；
+        // 如果不是第一次查询（cnt!=0），则追加在原html前面。
+        if (Number(cnt) != 0) {
+          html += oldHtml;
+        }
+        $('#global_chat_area').html(html);
+      }
+    })
+  })
+
+  // 查看好友聊天界面中的“更多聊天记录”，分页获取20条
+  $(document).on('click', '.friend_more_history', function () {
+    var fid = $(this).attr('fid');
+    var uid = $('.user').attr('name');
+    var cnt = $(this).attr('cnt');
+    // 该聊天界面的查询记录次数+1
+    $(this).attr('cnt', Number(cnt) + 1);
+    var start = Number(cnt) * 20;
+    var param = {
+      'fid' : fid,
+      'uid' : uid,
+      'start' : start,
+      'count' : '20'
+    };
+    $.ajax({
+      url : '/chatroom/getFriendChatHistory',
+      type : 'GET',
+      contentType: 'application/x-www-form-urlencoded',
+      data: param,
+      success : function (data) {
+        if (data == null || data.length == 0) {
+          return;
+        }
+        var len = data.length;
+        var html = '';
+        var chatDivId = '#' + uid + "_" + fid + "_area";
+        var oldHtml = $(chatDivId).html();
+        for (var i = 0; i < len; i++) {
+          if (data[i].from_user_id != uid) {
+            html += "<div class=\"bubble you\">" + data[i].content + "</div>" + "<br>";
+          } else {
+            html += "<div class=\"bubble me\">" + data[i].content + "</div>" + "<br>";
+          }
+        }
+        // 如果是第一次查询（cnt=0），直接覆盖原html；
+        // 如果不是第一次查询（cnt!=0），则追加在原html前面。
+        if (Number(cnt) != 0) {
+          html += oldHtml;
+        }
+        $(chatDivId).html(html);
       }
     })
   })
@@ -421,6 +516,9 @@ function searchUser() {
             "<strong>" + data[i].user_name + "</strong>" + "(" + data[i].user_email + ")&nbsp;&nbsp;&nbsp;&nbsp;" +
             "<button type='button' class='addFriend btn btn-primary' name='" + data[i].id + "'>加好友</button>" +
             "</div>";
+      }
+      if (len == 0) {
+        html = "<div class='row' style='font-size: large;text-align: center'><strong>无</strong></div>";
       }
       $('#friendsSearchResult').html(html);
     }

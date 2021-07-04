@@ -5,19 +5,20 @@
 ---  
 个人网站项目。  
 使用spring-boot搭建，集合了博客、书籍下载、留言、github page查询、Netty网页聊天室等功能。  
-其中github page查询工具使用了github的api，聊天室使用Netty+Websocket搭建服务，使用Shiro安全框架实现身份验证/登录，采用MySql作为网站的数据库，实现了群聊、单聊、查询用户、添加好友等功能。
+其中github page查询工具使用了github的api，聊天室使用Netty+Websocket搭建服务，使用Shiro安全框架实现身份验证/登录，采用MySQL作为网站的数据库，使用Redis用于最近聊天记录的缓存，并用其作为辅助实现聊天记录，实现了群聊、单聊、查询用户、添加好友、聊天记录等功能。
 目前已开发的功能：
 * 资源下载
 * 个人博客
 * 访客留言
 * github page博客搜索
     * 利用了Github的开放API实现了GitHubPage博客搜索工具，给使用者提供了一种，能够找到并访问那些没有被常用搜索引擎收录的优质个人博客和站点的方式。
-* 聊天室（Netty + WebSocket）
+* 聊天室（Netty + WebSocket + Redis）
     * Shiro登录认证
     * 群聊
     * 私聊
     * 加好友
     * 账号互踢机制
+    * 聊天记录
 
 正在开发的功能：
 * 资源共享

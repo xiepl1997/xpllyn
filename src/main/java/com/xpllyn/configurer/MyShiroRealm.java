@@ -2,7 +2,7 @@ package com.xpllyn.configurer;
 
 import com.xpllyn.pojo.User;
 import com.xpllyn.service.impl.UserService;
-import com.xpllyn.utils.Constant;
+import com.xpllyn.utils.im.Constant;
 import com.xpllyn.utils.EncryptionUtils;
 import io.netty.channel.ChannelHandlerContext;
 import org.apache.shiro.SecurityUtils;
@@ -90,9 +90,11 @@ public class MyShiroRealm extends AuthorizingRealm {
     // 发送一条关闭websocket连接的消息，让客户端断开连接
     public void ctxDisconnect(String id) {
         ChannelHandlerContext ctx = Constant.onlineUser.get(id);
-        ctx.channel().disconnect();
-        ctx.channel().close();
-        ctx.disconnect();
-        ctx.close();
+        if (ctx != null) {
+            ctx.channel().disconnect();
+            ctx.channel().close();
+            ctx.disconnect();
+            ctx.close();
+        }
     }
 }

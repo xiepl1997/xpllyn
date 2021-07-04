@@ -1,4 +1,4 @@
-package com.xpllyn.utils;
+package com.xpllyn.utils.im;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.http.HttpStatus;

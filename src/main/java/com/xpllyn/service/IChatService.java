@@ -32,4 +32,23 @@ public interface IChatService {
     List<GroupMessage> getGroupMessages();
 
     List<ChatMessage> getChatMessages();
+
+    /**
+     * 获取群消息最近count条消息记录
+     * @param groupId
+     * @param start
+     * @param count
+     * @return
+     */
+    List<GroupMessage> getLatestGroupMessage(int groupId, int start, int count);
+
+    /**
+     * 获取单聊消息最近count条消息记录
+     * @param id1
+     * @param id2
+     * @param start
+     * @param count
+     * @return
+     */
+    List<ChatMessage> getLatestChatMessageByIds(int id1, int id2, int start, int count);
 }

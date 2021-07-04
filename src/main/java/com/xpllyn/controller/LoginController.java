@@ -5,30 +5,25 @@
  */
 package com.xpllyn.controller;
 
-import com.xpllyn.pojo.User;
 import com.xpllyn.service.impl.ChatService;
 import com.xpllyn.service.impl.UserService;
-import com.xpllyn.utils.Constant;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.session.SessionException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Random;
 
 @Controller
+@Slf4j
 public class LoginController {
     @Autowired
     private UserService userService;
@@ -50,7 +45,7 @@ public class LoginController {
         String name = request.getParameter("name");
         String pwd = request.getParameter("password");
         String sex = request.getParameter("sex");
-        String icon = "chat/img/" + String.valueOf(new Random(11).nextInt(7) + 1) + ".jpg";
+        String icon = "chat/img/" + String.valueOf((int)(Math.random() * 6 + 1)) + ".jpg";
         boolean flag = userService.addNewUser(email, name, pwd, sex, icon);
         if (!flag) {
             model.addAttribute("msg", "该email已经使用！");
@@ -63,6 +58,7 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(email, pwd, false);
         subject.login(token);
 
+        log.info("【注册】 新用户注册");
         return "redirect:/chatroom";
     }
 

@@ -5,25 +5,31 @@ import com.xpllyn.mapper.ChatMapper;
 import com.xpllyn.pojo.ChatMessage;
 import com.xpllyn.pojo.Group;
 import com.xpllyn.pojo.GroupMessage;
-import com.xpllyn.pojo.User;
 import com.xpllyn.service.IChatService;
-import com.xpllyn.utils.ChatType;
-import com.xpllyn.utils.Constant;
-import com.xpllyn.utils.ResponseJson;
+import com.xpllyn.service.IMRedisService;
+import com.xpllyn.utils.im.ChatType;
+import com.xpllyn.utils.im.Constant;
+import com.xpllyn.utils.im.ResponseJson;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
+@Slf4j
 public class ChatService implements IChatService {
 
     @Autowired
     private GroupService groupService;
+
+    @Autowired
+    private IMRedisService imRedisService;
 
     @Autowired
     private ChatMapper chatMapper;
@@ -34,14 +40,33 @@ public class ChatService implements IChatService {
         String toUserId = (String) param.get("toUserId");
         String content = (String) param.get("content");
         ChannelHandlerContext toUserCtx = Constant.onlineUser.get(toUserId);
+
+        // 保存到Redis缓存中
+        Timestamp time = new Timestamp(new Date().getTime());
+        ChatMessage cm = new ChatMessage(Integer.parseInt(fromUserId), Integer.parseInt(toUserId), content, time);
+        try {
+            imRedisService.setChatMessage(cm);
+        } catch (Exception e) {
+            try {
+                chatMapper.insertChatMessage(cm);
+                log.error("【Redis】 发送单聊消息保存到缓存时出错。发送方id：" + fromUserId + "，接收方id：" + toUserId +
+                        "。发送内容：" + content + "。已保存到MySQL中");
+                e.printStackTrace();
+            } catch (Exception e1) {
+                log.error("【Redis】 发送单聊消息保存到缓存时出错。发送方id：" + fromUserId + "，接收方id：" + toUserId +
+                        "发送内容：" + content + "。保存到MySQL中出错。消息持久化失败！");
+            }
+        }
+
         if (toUserCtx == null) {
-            String responseJson = new ResponseJson().error("用户" + toUserId + "没有登录！").toString();
-            sendMessage(ctx, responseJson);
+            //String responseJson = new ResponseJson().error("用户" + toUserId + "没有登录！").toString();
+            //sendMessage(ctx, responseJson);
+            // 对方离线
         } else {
             String responseJson = new ResponseJson().success()
                     .setData("fromUserId", fromUserId)
                     .setData("content", content)
-                    .setData("time", new SimpleDateFormat("M/dd").format(new Date()))
+                    .setData("time", new SimpleDateFormat("M/d").format(new Date()))
                     .setData("type", ChatType.SINGLE_SENDING)
                     .toString();
             sendMessage(toUserCtx, responseJson);
@@ -54,6 +79,23 @@ public class ChatService implements IChatService {
         String toGroupId = (String) param.get("toGroupId");
         String content = (String) param.get("content");
 
+        // 保存到Redis中
+        Timestamp time = new Timestamp(new Date().getTime());
+        GroupMessage gm = new GroupMessage(Integer.parseInt(toGroupId), Integer.parseInt(fromUserId), content, time);
+        try {
+            imRedisService.setGroupMessage(gm);
+        } catch (Exception e) {
+            try {
+                chatMapper.insertGroupMessage(gm);
+                log.error("【Redis】 发送单聊消息保存到缓存时出错。发送方id：" + fromUserId + "，群id：" + toGroupId +
+                        "。发送内容：" + content + "。已保存到MySQL中");
+                e.printStackTrace();
+            } catch (Exception e1) {
+                log.error("【Redis】 发送单聊消息保存到缓存时出错。发送方id：" + fromUserId + "，群id：" + toGroupId +
+                        "发送内容：" + content + "。保存到MySQL中出错。消息持久化失败！");
+            }
+        }
+
         Group group = groupService.getByGroupId(toGroupId);
         if (group == null) {
             String responseJson = new ResponseJson().error("该群不存在！").toString();
@@ -64,7 +106,7 @@ public class ChatService implements IChatService {
                     .setData("fromUserId", fromUserId)
                     .setData("content", content)
                     .setData("toGroupId", toGroupId)
-                    .setData("time", new SimpleDateFormat("M/dd").format(new Date()))
+                    .setData("time", new SimpleDateFormat("M/d").format(new Date()))
                     .setData("type", ChatType.GROUP_SENDING)
                     .toString();
 
@@ -85,10 +127,27 @@ public class ChatService implements IChatService {
         String fromUserId = (String) param.get("fromUserId");
         String content = (String) param.get("content");
 
+        // 保存到Redis中
+        Timestamp time = new Timestamp(new Date().getTime());
+        GroupMessage gm = new GroupMessage(1, Integer.parseInt(fromUserId), content, time);
+        try {
+            imRedisService.setGroupMessage(gm);
+        } catch (Exception e) {
+            try {
+                chatMapper.insertGroupMessage(gm);
+                log.error("【Redis】 发送单聊消息保存到缓存时出错。发送方id：" + fromUserId + "，群id：1" +
+                        "。发送内容：" + content + "。已保存到MySQL中");
+                e.printStackTrace();
+            } catch (Exception e1) {
+                log.error("【Redis】 发送单聊消息保存到缓存时出错。发送方id：" + fromUserId + "，群id：1" +
+                        "发送内容：" + content + "。保存到MySQL中出错。消息持久化失败！");
+            }
+        }
+
         String responseJson = new ResponseJson().success()
                 .setData("fromUserId", fromUserId)
                 .setData("content", content)
-                .setData("time", new SimpleDateFormat("M/dd").format(new Date()))
+                .setData("time", new SimpleDateFormat("M/d").format(new Date()))
                 .setData("type", ChatType.GROUP_SENDING_All)
                 .toString();
 
@@ -165,6 +224,16 @@ public class ChatService implements IChatService {
     @Override
     public List<ChatMessage> getChatMessages() {
         return chatMapper.getChatMessage();
+    }
+
+    @Override
+    public List<GroupMessage> getLatestGroupMessage(int groupId, int start, int count) {
+        return chatMapper.getLatestGroupMessage(groupId, start, count);
+    }
+
+    @Override
+    public List<ChatMessage> getLatestChatMessageByIds(int id1, int id2, int start, int count) {
+        return chatMapper.getLatestChatMessageByIds(id1, id2, start, count);
     }
 
     @Override

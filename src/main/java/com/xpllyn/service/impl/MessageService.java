@@ -4,6 +4,7 @@ import com.xpllyn.mapper.MessageMapper;
 import com.xpllyn.pojo.Message;
 import com.xpllyn.service.IMessageService;
 import com.xpllyn.utils.MessageInfoUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -20,6 +21,7 @@ import java.util.List;
  * created by xiepl1997 at 2019-8-21
  */
 @Service
+@Slf4j
 public class MessageService implements IMessageService {
 
     @Autowired
@@ -33,8 +35,10 @@ public class MessageService implements IMessageService {
         boolean flag = false;
         try {
             flag = messageMapper.insert(message);
+            log.info("【留言】 收到新留言:" + message.getContent());
         }
         catch (Exception e){
+            log.error("【留言】 留言保存失败，留言内容：" + message.getContent());
             e.printStackTrace();
         }
         return flag;

@@ -1,6 +1,6 @@
 package com.xpllyn.im.handler;
 
-import com.xpllyn.utils.Constant;
+import com.xpllyn.utils.im.Constant;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
