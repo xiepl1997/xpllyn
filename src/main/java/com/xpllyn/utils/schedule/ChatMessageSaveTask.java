@@ -25,7 +25,7 @@ public class ChatMessageSaveTask {
     private ChatService chatService;
 
     /**
-     * 定时任务，每天凌晨3点进行redis缓存的持久化，将group聊天记录保存到数据库
+     * 定时任务，每天凌晨3点进行redis缓存的持久化，将聊天记录保存到数据库
      */
     @Scheduled(cron = "0 0 3 * * ?")
     public void chatMessageSave() {
@@ -47,7 +47,6 @@ public class ChatMessageSaveTask {
         } else {
             log.info("【定时任务】 无世界频道新聊天记录持久化到MySQL。");
         }
-
 
         // 获取单聊聊天缓存
         String pattern = "*-chat";
@@ -75,6 +74,5 @@ public class ChatMessageSaveTask {
         } else {
             log.info("【定时任务】 无单聊新聊天记录持久化到MySQL。");
         }
-
     }
 }
