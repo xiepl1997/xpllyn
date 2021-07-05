@@ -40,6 +40,7 @@ public class ChatMessageSaveTask {
                 // 清空缓存
                 imRedisService.remove("group");
                 log.info("【定时任务】 " + gm.size() + "条世界频道新聊天记录持久化到MySQL。");
+                log.info("【定时任务】 " + gm.size() + "条世界频道新聊天记录缓存已清空。");
             } catch (Exception e) {
                 log.error("【定时任务】 Redis出错！");
             }
