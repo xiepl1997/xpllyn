@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xpllyn.pojo.GitHubRepository;
 import com.xpllyn.utils.githubpageutil.SearchUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/GitHubPageSearch")
+@Slf4j
 public class GitHubSearchController {
 
     @Autowired
@@ -27,6 +29,7 @@ public class GitHubSearchController {
 
     @RequestMapping("")
     public ModelAndView gotoGitHubPageSearch() {
+        log.info("【GitHubPage Search】 用户进入。");
         ModelAndView mv = new ModelAndView();
         mv.addObject("tab_index", 4);
         mv.setViewName("github_page_search");
@@ -69,6 +72,9 @@ public class GitHubSearchController {
         map.put("repositoryList", repositoryList);
         map.put("repository_count", repository_count);
         map.put("page_count", page_count);
+
+        log.info("【GitHubPage Search】 用户发起查询：" + q);
+
         return map;
     }
 }

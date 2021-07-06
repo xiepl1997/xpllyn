@@ -58,7 +58,7 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(email, pwd, false);
         subject.login(token);
 
-        log.info("【注册】 新用户注册");
+        log.info("【注册】 新用户注册：" + name);
         return "redirect:/chatroom";
     }
 
