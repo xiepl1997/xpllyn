@@ -2,6 +2,7 @@ package com.xpllyn.controller;
 
 import com.xpllyn.pojo.ChatMessage;
 import com.xpllyn.pojo.GroupMessage;
+import com.xpllyn.pojo.ReadMessage;
 import com.xpllyn.pojo.User;
 import com.xpllyn.service.IMRedisService;
 import com.xpllyn.service.impl.ChatService;
@@ -100,6 +101,9 @@ public class ChatRoomController {
             }
         }
 
+        // TODO: 2021/7/9 获取每一对聊天的好友已读回执，获取相应时间更新已读未读标志，获取历史记录那里也要改
+        Map<Integer, Timestamp> friendReadTime = getFriendsReadTime(user.getId(), friends);
+
         mv.addObject("friends", friends);
         mv.addObject("online_friend_ids", onlineFriendIds);
         mv.addObject("globalChatHistory", globalChatHistory);
@@ -108,10 +112,15 @@ public class ChatRoomController {
         mv.addObject("lastFriendChat", lastFriendChat);
         mv.addObject("lastGlobalMessageTime", lastGlobalMessageTime);
         mv.addObject("lastFriendChatTime", lastFriendChatTime);
+        mv.addObject("friendReadTime", friendReadTime);
 
         return mv;
     }
 
+    /**
+     * 获取群聊历史消息（15条）
+     * @return
+     */
     public List<GroupMessage> getGroupMessageHistory() {
         return imRedisService.getGroupMessageHistory();
     }
@@ -133,6 +142,27 @@ public class ChatRoomController {
                 res.put(friend.getId(), cms);
             } else {
                 res.put(friend.getId(), new ArrayList<>());
+            }
+        }
+        return res;
+    }
+
+    /**
+     * 获取当前用户的每一个好友的最新已读回执发送时间
+     * @param sid
+     * @param friends
+     * @return
+     */
+    public Map<Integer, Timestamp> getFriendsReadTime(int sid, List<User> friends) {
+        Map<Integer, Timestamp> res = new HashMap<>();
+        for (User friend : friends) {
+            int rid = friend.getId();
+            String key = rid + "-" + sid + "-readTime";
+            ReadMessage rm = imRedisService.getReadMessage(key);
+            if (rm == null) {
+                res.put(rid, Timestamp.valueOf("1970-01-01 00:00:00"));
+            } else {
+                res.put(rid, rm.getTime());
             }
         }
         return res;
@@ -247,13 +277,13 @@ public class ChatRoomController {
     }
 
     /**
-     * 获取单聊历史记录
+     * 获取单聊历史记录，同时获取该好友最后发送回执时间
      * @param request
      * @return
      */
     @RequestMapping("/chatroom/getFriendChatHistory")
     @ResponseBody
-    public List<ChatMessage> getLatestChatMessage(HttpServletRequest request) {
+    public Map<String, Object> getLatestChatMessage(HttpServletRequest request) {
         // TODO: 2021/7/4 获单群历史记录，情况分为第一次获取和非第一次获取
         // 逻辑同getLatestGroupMessage()
         int uid = Integer.parseInt(request.getParameter("uid"));
@@ -270,6 +300,21 @@ public class ChatRoomController {
                 res.addAll(chatCache);
             }
         }
-        return res;
+
+        // 获取好友最后回执发送时间
+        Timestamp ts = null;
+        String key = fid + "-" + uid + "-readTime";
+        ReadMessage rm = imRedisService.getReadMessage(key);
+        if (rm == null) {
+            ts = Timestamp.valueOf("1970-01-01 00:00:00");
+        } else {
+            ts = rm.getTime();
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("chatMessageList", res);
+        map.put("readTime", ts);
+        return map;
+
     }
 }

@@ -1,5 +1,9 @@
 document.querySelector('.chat[data-chat=group]').classList.add('active-chat');
+var groupChat = document.querySelector('.chat[data-chat=group]');
+gotoBottom(groupChat);
 document.querySelector('.person[data-chat=group]').classList.add('active');
+
+var current_friend_id;
 
 var friends = {
   list: document.querySelector('ul.people'),
@@ -16,6 +20,13 @@ chat = {
 friends.all.forEach(function (f) {
   f.addEventListener('mousedown', function () {
     f.classList.contains('active') || setAciveChat(f);
+    current_friend_id = f.getAttribute('data-chat');
+    // 点击好友的聊天窗口后给对方发送已读回执，让对方更新ui
+    if (current_friend_id != 'group') {
+      var toUserId = current_friend_id;
+      var fromUserId = $('.user').attr('name');
+      ws.readReplySend(fromUserId, toUserId);
+    }
   });
 });
 
@@ -56,6 +67,13 @@ function addPerson(data) {
   friends.all.forEach(function (f) {
     f.addEventListener('mousedown', function () {
       f.classList.contains('active') || setAciveChat(f);
+      current_friend_id = f.getAttribute('data-chat');
+      // 点击好友的聊天窗口后给对方发送已读回执，让对方更新ui
+      if (current_friend_id != 'group') {
+        var toUserId = current_friend_id;
+        var fromUserId = $('.user').attr('name');
+        ws.readReplySend(fromUserId, toUserId);
+      }
     });
   });
 
@@ -159,6 +177,38 @@ var ws = {
     return 'success';
   },
 
+  // 发送已读回执
+  readReplySend : function (fromUserId, toUserId) {
+    if (!window.WebSocket) {
+      return;
+    }
+    if (socket.readyState == WebSocket.OPEN) {
+      var date = new Date();
+      var data = {
+        "fromUserId" : fromUserId,
+        "toUserId" : toUserId,
+        "date" : new Date().Format("yyyy-MM-dd HH:mm:ss"),
+        "type" : "READ_REPLY_SENDING"
+      };
+      socket.send(JSON.stringify(data));
+    } else {
+      alert("WebSocket连接没有开启！");
+      return 'fail';
+    }
+    return 'success';
+  },
+
+  // 接收已读回执
+  readReplyReceive : function (data) {
+    var fromUserId = data.fromUserId;
+    var time = data.time;
+    var param = {
+      fid : fromUserId,
+      time : time
+    };
+    setReadStatus(param);
+  },
+
   singleReceive : function (data) {
     var fromUserId = data.fromUserId;
     var content = data.content;
@@ -170,6 +220,14 @@ var ws = {
     };
     addMessage(param, 'you');
     updateOnePersonList(param);
+
+    // 发送已读回执，让对方更新ui
+    // 如果当前是在发送者的这个聊天界面，接收完消息后就马上发送已读回执
+    var fromUserId1 = $('.user').attr('name');
+    var toUserId = fromUserId;
+    if (document.querySelector(".person[data-chat='" + toUserId + "']").classList.contains('active')) {
+      ws.readReplySend(fromUserId1, toUserId);
+    }
   },
 
   groupReceive : function (data) {
@@ -199,6 +257,15 @@ var ws = {
   // }
 }
 
+function setReadStatus(data) {
+  var fid = data.fid;
+  var time = data.time;
+  var uid = $('.user').attr('name');
+  var key = '#' + uid + '_' + fid + '_area';
+  $(key + ' .readStatus-unread').html('已读');
+  $(key + ' .readStatus-unread').attr('class', 'readStatus-read');
+}
+
 function addMessageForGroupAll(data, who) {
   //var html = document.querySelector('.chat[data-chat=group]').innerHTML;
   var html = document.querySelector('#global_chat_area').innerHTML;
@@ -223,7 +290,7 @@ function addMessage(data, who) {
   if (who === 'you') {
     msg = "<div class='bubble you'>" + data.content + "</div>";
   } else {
-    msg = "<div class='bubble me'>" + data.content + "</div>";
+    msg = "<div class='bubble me'><div>" + data.content + "</div><div class='readStatus-unread'>未读</div></div>";
   }
   //document.querySelector('#' + uid + '_' + data.id + '_area').innerHTML = html + msg;
   html += msg;
@@ -462,15 +529,24 @@ $(document).ready(function() {
         if (data == null || data.length == 0) {
           return;
         }
-        var len = data.length;
+        var chatMessageList = data['chatMessageList'];
+        var readTime = data['readTime'];
+        if (chatMessageList == null || chatMessageList.length == 0 || readTime == null) {
+          return;
+        }
+        var len = chatMessageList.length;
         var html = '';
         var chatDivId = '#' + uid + "_" + fid + "_area";
         var oldHtml = $(chatDivId).html();
         for (var i = 0; i < len; i++) {
-          if (data[i].from_user_id != uid) {
-            html += "<div class=\"bubble you\">" + data[i].content + "</div>" + "<br>";
+          if (chatMessageList[i].from_user_id != uid) {
+            html += "<div class=\"bubble you\">" + chatMessageList[i].content + "</div>" + "<br>";
           } else {
-            html += "<div class=\"bubble me\">" + data[i].content + "</div>" + "<br>";
+            if (readTime >= chatMessageList[i].create_time) {
+              html += "<div class=\"bubble me\"><div>" + chatMessageList[i].content + "</div><div class='readStatus-read'>已读</div></div>" + "<br>";
+            } else {
+              html += "<div class=\"bubble me\"><div>" + chatMessageList[i].content + "</div><div class='readStatus-unread'>未读</div></div>" + "<br>";
+            }
           }
         }
         // 如果是第一次查询（cnt=0），直接覆盖原html；
@@ -560,4 +636,28 @@ function sendMsg() {
     }
   }
   $('#inputText').val('');
+}
+
+
+
+// 对Date的扩展，将 Date 转化为指定格式的String
+// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+// 例子：
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+Date.prototype.Format = function (fmt) {
+  var o = {
+    "M+": this.getMonth() + 1, //月份
+    "d+": this.getDate(), //日
+    "H+": this.getHours(), //小时
+    "m+": this.getMinutes(), //分
+    "s+": this.getSeconds(), //秒
+    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+    "S": this.getMilliseconds() //毫秒
+  };
+  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+  return fmt;
 }

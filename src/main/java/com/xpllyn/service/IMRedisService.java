@@ -3,6 +3,8 @@ package com.xpllyn.service;
 import com.xpllyn.mapper.ChatMapper;
 import com.xpllyn.pojo.ChatMessage;
 import com.xpllyn.pojo.GroupMessage;
+import com.xpllyn.pojo.ReadMessage;
+import com.xpllyn.service.impl.ReadMessageService;
 import com.xpllyn.utils.im.IMRedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class IMRedisService {
 
     @Autowired
     private ChatMapper chatMapper;
+
+    @Autowired
+    private ReadMessageService readMessageService;
 
     /**
      * 插入世界频道群聊新消息
@@ -153,6 +158,36 @@ public class IMRedisService {
             }
         }
         return cms;
+    }
+
+    /**
+     * 插入或更新一条已读回执到redis中的value中
+     * @param readMessage
+     * @return
+     */
+    public boolean setReadMessage(ReadMessage readMessage) {
+        return imRedisUtils.setReadMessage(readMessage, redisTemplate);
+    }
+
+    public ReadMessage getReadMessage(String key) {
+        ReadMessage readMessage = null;
+        try {
+            readMessage = imRedisUtils.getReadMessage(key, redisTemplate);
+        } catch (Exception e) {
+            log.error("【Redis】 redis error！");
+            e.printStackTrace();
+        }
+        // 如果缓存里为空，则上数据库找，如果数据库中有的话放入缓存中
+        if (readMessage == null) {
+            String[] strs = key.split("-");
+            int rid = Integer.parseInt(strs[0]);
+            int sid = Integer.parseInt(strs[1]);
+            readMessage = readMessageService.getReadMessage(rid, sid);
+            if (readMessage != null) {
+                imRedisUtils.setReadMessage(readMessage, redisTemplate);
+            }
+        }
+        return readMessage;
     }
 
     /**

@@ -87,7 +87,10 @@
                             <div th:id="${user.id} + '_' + ${friend.id} + '_area'">
                                 <span th:each="msg:${friendChatHistory[__${friend.id}__]}">
                                     <span th:if="${msg.from_user_id} == ${user.id}">
-                                        <div class="bubble me" th:text="${msg.content}"></div>
+                                        <div class="bubble me">
+                                            <div th:text="${msg.content}"></div>
+                                            <div th:classappend="${friendReadTime[__${friend.id}__]} >= ${msg.create_time} ? 'readStatus-read' : 'readStatus-unread'" th:text="${friendReadTime[__${friend.id}__]} >= ${msg.create_time} ? '已读' : '未读'"></div>
+                                        </div>
                                     </span>
                                     <span th:if="${msg.from_user_id} != ${user.id}">
                                         <div class="bubble you" th:text="${msg.content}"></div>
@@ -148,6 +151,7 @@
     }
     if (window.WebSocket) {
         socket = new WebSocket("ws://www.xpllyn.com:3333");
+        // socket = new WebSocket("ws://localhost:3333");
         socket.onopen = function () {
             var param = {
                 id: $('.user').attr('name'),
@@ -172,6 +176,9 @@
                     case "AGREE_FRIEND_REQUEST":
                         addPerson(json.data);
                         break;
+                    case "READ_REPLY_SENDING":
+                        ws.readReplyReceive(json.data);
+                        break;
                     default:
                         break;
                 }
@@ -179,7 +186,7 @@
         };
         socket.onclose = function (event) {
             socket.close();
-            alert('连接已断开！');
+            alert('连接已断开！' + event.code + ' ' + event.reason + ' ' + event.wasClean);
             window.location.replace('http://www.xpllyn.com/loginpage');
         };
         socket.onerror = function (event) {

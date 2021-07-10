@@ -2,14 +2,17 @@ package com.xpllyn.utils.schedule;
 
 import com.xpllyn.pojo.ChatMessage;
 import com.xpllyn.pojo.GroupMessage;
+import com.xpllyn.pojo.ReadMessage;
 import com.xpllyn.service.IMRedisService;
 import com.xpllyn.service.impl.ChatService;
+import com.xpllyn.service.impl.ReadMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
@@ -24,8 +27,11 @@ public class ChatMessageSaveTask {
     @Autowired
     private ChatService chatService;
 
+    @Autowired
+    private ReadMessageService readMessageService;
+
     /**
-     * 定时任务，每天凌晨3点进行redis缓存的持久化，将聊天记录保存到数据库
+     * 定时任务，每天凌晨3点进行redis缓存的持久化，将聊天记录、已读回执记录保存到数据库
      */
     @Scheduled(cron = "0 0 3 * * ?")
     public void chatMessageSave() {
@@ -74,5 +80,44 @@ public class ChatMessageSaveTask {
         } else {
             log.info("【定时任务】 无单聊新聊天记录持久化到MySQL。");
         }
+
+        // 获取redis中的已读回执
+        String pattern1 = "*-readTime";
+        Set<String> keys1 = imRedisService.getRedisTemplate().keys(pattern1);
+        int cnt1 = 0;
+        int cnt2 = 0;
+        if (keys != null) {
+            for (String key : keys1) {
+                ReadMessage readMessage = imRedisService.getReadMessage(key);
+                if (readMessage != null) {
+                    int rid = readMessage.getRead_user_id();
+                    int sid = readMessage.getSend_user_id();
+                    Timestamp time = readMessage.getTime();
+                    try {
+                        ReadMessage rm = readMessageService.getReadMessage(rid, sid);
+                        if (rm != null) {
+                            if (rm.getTime() != time) {
+                                readMessageService.updateReadMessage(rid, sid, time);
+                                cnt1++;
+                            } else {
+                                cnt2++;
+                            }
+                        } else {
+                            readMessageService.insertReadMessage(readMessage);
+                            cnt1++;
+                        }
+                        // 清空缓存
+                        imRedisService.remove(key);
+                    } catch (Exception e) {
+                        log.error("【定时任务】 Redis出错！");
+                    }
+                }
+            }
+        }
+        log.info("【定时任务】 " + cnt1 + "条已读回执已插入或更新到MySQL。");
+        if (cnt2 != 0) {
+            log.info("【定时任务】 " + cnt2 + "条已读回执无需持久化到MySQL。");
+        }
+        log.info("【定时任务】 结束！");
     }
 }

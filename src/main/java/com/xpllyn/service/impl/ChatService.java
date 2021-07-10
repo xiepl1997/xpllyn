@@ -5,6 +5,7 @@ import com.xpllyn.mapper.ChatMapper;
 import com.xpllyn.pojo.ChatMessage;
 import com.xpllyn.pojo.Group;
 import com.xpllyn.pojo.GroupMessage;
+import com.xpllyn.pojo.ReadMessage;
 import com.xpllyn.service.IChatService;
 import com.xpllyn.service.IMRedisService;
 import com.xpllyn.utils.im.ChatType;
@@ -34,6 +35,9 @@ public class ChatService implements IChatService {
     @Autowired
     private ChatMapper chatMapper;
 
+    @Autowired
+    private ReadMessageService readMessageService;
+
     @Override
     public void singleSend(JSONObject param, ChannelHandlerContext ctx) {
         String fromUserId = (String) param.get("fromUserId");
@@ -58,10 +62,11 @@ public class ChatService implements IChatService {
             }
         }
 
+        // 如果对方在线，则直接推送消息给对方，使得对方即时更新ui
         if (toUserCtx == null) {
             //String responseJson = new ResponseJson().error("用户" + toUserId + "没有登录！").toString();
             //sendMessage(ctx, responseJson);
-            // 对方离线
+            // 对方离线，则不需要推送
         } else {
             String responseJson = new ResponseJson().success()
                     .setData("fromUserId", fromUserId)
@@ -92,7 +97,7 @@ public class ChatService implements IChatService {
                 e.printStackTrace();
             } catch (Exception e1) {
                 log.error("【Redis】 发送单聊消息保存到缓存时出错。发送方id：" + fromUserId + "，群id：" + toGroupId +
-                        "发送内容：" + content + "。保存到MySQL中出错。消息持久化失败！");
+                        "。发送内容：" + content + "。保存到MySQL中出错。消息持久化失败！");
             }
         }
 
@@ -140,7 +145,7 @@ public class ChatService implements IChatService {
                 e.printStackTrace();
             } catch (Exception e1) {
                 log.error("【Redis】 发送单聊消息保存到缓存时出错。发送方id：" + fromUserId + "，群id：1" +
-                        "发送内容：" + content + "。保存到MySQL中出错。消息持久化失败！");
+                        "。发送内容：" + content + "。保存到MySQL中出错。消息持久化失败！");
             }
         }
 
@@ -165,6 +170,53 @@ public class ChatService implements IChatService {
     public void register(JSONObject param, ChannelHandlerContext ctx) {
         String id = (String) param.get("id");
         Constant.onlineUser.put(id, ctx);
+    }
+
+    @Override
+    public void readReplySend(JSONObject param, ChannelHandlerContext ctx) {
+        String fromUserId = (String) param.get("fromUserId");
+        String toUserId = (String) param.get("toUserId");
+        Timestamp time = Timestamp.valueOf ((String) param.get("date"));
+
+        // 发送已读回执时，更新redis中的缓存，如果redis不可用，则直接更新到数据中
+        int rid = Integer.parseInt(fromUserId);
+        int sid = Integer.parseInt(toUserId);
+        ReadMessage rm = new ReadMessage(rid, sid, time);
+        try {
+            imRedisService.setReadMessage(rm);
+        } catch (Exception e) {
+            try {
+                ReadMessage readMessage = readMessageService.getReadMessage(rid, sid);
+                if (readMessage == null) {
+                    // 如果数据库中没有该记录，则插入新记录
+                    readMessageService.insertReadMessage(rm);
+                } else {
+                    // 如果数据库中有该记录，则更新
+                    readMessageService.updateReadMessage(rid, sid, time);
+                }
+                log.error("【Redis】 redis更新已读回执时出错，发送回执id：" + rid + "。接收回执方id：" + sid +
+                        "。已保存到数据库。");
+            } catch (Exception e1) {
+                log.error("【Redis】 redis更新已读回执时出错，发送回执id：" + rid + "。接收回执方id：" + sid +
+                        "。保存到数据库过程中失败。回执丢失！");
+            }
+        }
+
+        // 对方在线的话，直接推送已读回执给对方，让对方即时更新ui界面
+        ChannelHandlerContext toUserCtx = Constant.onlineUser.get(toUserId);
+        if (toUserCtx == null) {
+            //String responseJson = new ResponseJson().error("用户" + toUserId + "没有登录！").toString();
+            //sendMessage(ctx, responseJson);
+            // 对方离线，则不发送，
+        } else {
+            String responseJson = new ResponseJson().success()
+                    .setData("fromUserId", fromUserId)
+                    .setData("toUserId", toUserId)
+                    .setData("time", time)
+                    .setData("type", ChatType.READ_REPLY_SENDING)
+                    .toString();
+            sendMessage(toUserCtx, responseJson);
+        }
     }
 
     /**

@@ -318,6 +318,20 @@ body {
   right: -3px;
   background-color: #eceff1;
 }
+.readStatus-read {
+  font-size: 12px;
+  color: yellowgreen;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.readStatus-unread {
+  font-size: 12px;
+  color: gray;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
 .container1 .right .conversation-start {
   position: relative;
   width: 100%;

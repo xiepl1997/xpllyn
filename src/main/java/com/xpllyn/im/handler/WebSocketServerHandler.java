@@ -85,6 +85,10 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
                 break;
             case "AGREE_FRIEND_REQUEST":
                 chatService.agreeResponse(param, ctx);
+                break;
+            case "READ_REPLY_SENDING":
+                chatService.readReplySend(param, ctx);
+                break;
             default:
                 chatService.typeError(ctx);
                 break;

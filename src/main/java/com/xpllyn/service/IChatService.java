@@ -17,6 +17,13 @@ public interface IChatService {
 
     void register(JSONObject param, ChannelHandlerContext ctx);
 
+    /**
+     * 发送已读回执
+     * @param param
+     * @param ctx
+     */
+    void readReplySend(JSONObject param, ChannelHandlerContext ctx);
+
     void remove(ChannelHandlerContext ctx);
 
     void typeError(ChannelHandlerContext ctx);

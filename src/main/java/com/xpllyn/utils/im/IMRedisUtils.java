@@ -2,10 +2,12 @@ package com.xpllyn.utils.im;
 
 import com.xpllyn.pojo.ChatMessage;
 import com.xpllyn.pojo.GroupMessage;
+import com.xpllyn.pojo.ReadMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -141,6 +143,41 @@ public class IMRedisUtils {
         }
         List<ChatMessage> list = redisTemplate.opsForList().range(key, 0, -1);
         return list;
+    }
+
+    /**
+     * 插入或更新一条已读回执到redis中的value中
+     * @param readMessage
+     * @return
+     */
+    public boolean setReadMessage(ReadMessage readMessage, RedisTemplate redisTemplate) {
+        boolean result = false;
+        int rid = readMessage.getRead_user_id();
+        int sid = readMessage.getSend_user_id();
+        String key = rid + "-" + sid + "-readTime";
+        try {
+            redisTemplate.opsForValue().set(key, readMessage);
+            redisTemplate.expire(key, 25, TimeUnit.HOURS);
+            result = true;
+        } catch (Exception e) {
+            log.error("【redis error】 saving the readMessage");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 获取一条已读回执
+     * @param key
+     * @param redisTemplate
+     * @return
+     */
+    public ReadMessage getReadMessage(String key, RedisTemplate redisTemplate) {
+        if (!exists(key, redisTemplate)) {
+            return null;
+        }
+        ReadMessage readMessage = (ReadMessage) redisTemplate.opsForValue().get(key);
+        return readMessage;
     }
 
     /**
