@@ -81,10 +81,16 @@
 				<a href="#" class="list-group-item list-group-item-info" style="border-radius: 15px;"><h4><strong>最近的文章</strong></h4></a>
 					<div class="list-group pre-scrollable" style="height: 100%;width: 100%;border-radius: 15px;border-bottom: 1px solid gray">
 					<!-- 显示最近10篇 -->
-					<span th:each="i:${#numbers.sequence(0,blogCount-1)}" th:if="${blogCount} ne 0">
-						<a class="list-group-item blog" style="cursor: pointer;border: 1px solid gray" th:href="${blogList[i]?.url}">
-							<h4 class="list-group-item-heading" th:text="${blogList[i]?.title}"></h4>
-							<p class="list-group-item-text" th:text="${blogList[i]?.time}"></p>
+<!--					<span th:each="i:${#numbers.sequence(0,blogCount-1)}" th:if="${blogCount} ne 0">-->
+<!--						<a class="list-group-item blog" style="cursor: pointer;border: 1px solid gray" th:href="${blogList[i]?.url}">-->
+<!--							<h4 class="list-group-item-heading" th:text="${blogList[i]?.title}"></h4>-->
+<!--							<p class="list-group-item-text" th:text="${blogList[i]?.time}"></p>-->
+<!--						</a>-->
+<!--					</span>-->
+					<span th:each="blog:${blogList}">
+						<a class="list-group-item blog" style="cursor: pointer;border: 1px solid gray" th:href="${blog.url}">
+							<h4 class="list-group-item-heading" th:text="${blog.title}"></h4>
+							<p class="list-group-item-text" th:text="${blog.time}"></p>
 						</a>
 					</span>
 					<a class="list-group-item blog-more" style="cursor: pointer;text-align: center;" href="https://xiepl1997.github.io/" target="_blank"><h5>……More……</h5></a>
