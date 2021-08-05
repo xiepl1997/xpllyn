@@ -20,7 +20,7 @@ public interface ReadMessageMapper {
     @Insert("insert into readmessage(read_user_id, send_user_id, read_time) values(#{read_user_id}, #{send_user_id}, #{read_time})")
     boolean insertReadMessage(ReadMessage rm);
 
-    @Update("update readmessage set time = #{time} where read_user_id = #{rid} and send_user_id = #{sid}")
+    @Update("update readmessage set read_time = #{time} where read_user_id = #{rid} and send_user_id = #{sid}")
     boolean updateReadMessage(int rid, int sid, Timestamp time);
 
     @Select("select * from readmessage where read_user_id = #{rid} and send_user_id = #{sid}")

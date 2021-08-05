@@ -96,7 +96,7 @@ public class ChatMessageSaveTask {
                     try {
                         ReadMessage rm = readMessageService.getReadMessage(rid, sid);
                         if (rm != null) {
-                            if (rm.getTime() != time) {
+                            if (!rm.getTime().equals(time)) {
                                 readMessageService.updateReadMessage(rid, sid, time);
                                 cnt1++;
                             } else {
