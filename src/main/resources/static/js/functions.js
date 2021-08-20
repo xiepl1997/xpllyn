@@ -81,7 +81,7 @@ $(document).ready(function() {
 
 							htmls += "<a class=\"list-group-item\" style=\"cursor: pointer;border: 1px solid gray\">";
 							htmls += "<p class=\"list-group-item-text\" style=\"font-size: small;\">" + messageList[i].name + "</p>";
-							htmls += "<p class=\"list-group-item-text\" style=\"font-weight: bold;margin-left: 25px;\">" + messageList[i].content + "</p>";
+							htmls += "<p class=\"list-group-item-text\" style=\"font-weight: bold;margin-left: 25px;\">" + escapeHTML(messageList[i].content) + "</p>";
 							htmls += "<p class=\"list-group-item-text\" style=\"font-size: x-small;\">" + timeStr + "</p>";
 							htmls += "</a>";
 						}
@@ -122,7 +122,7 @@ $(document).ready(function() {
                     else
                         htmls += "<a class=\"list-group-item\" style=\"cursor: pointer;border-radius:15px;background-color: silver;\">";
                     htmls += "<p class=\"list-group-item-text\" style=\"font-size: small;\">" + mList[i].name + "</p>";
-                    htmls += "<p class=\"list-group-item-text\" style=\"font-weight: bold;margin-left: 25px;\">" + mList[i].content + "</p>";
+                    htmls += "<p class=\"list-group-item-text\" style=\"font-weight: bold;margin-left: 25px;\">" + escapeHTML(mList[i].content) + "</p>";
                     htmls += "<p class=\"list-group-item-text\" style=\"font-size: x-small;\">" + timeStr + "</p>";
                     htmls += "</a>";
                 }
@@ -197,6 +197,23 @@ function ShowRegister() {
 	$("#c1").removeAttr("hidden");
 }
 
+/**
+ *. 转义html(防XSS攻击)
+ *. @param str 字符串
+ */
+function escapeHTML (str) {
+	return     str.replace(
+		/[&<>'"]/g,
+		tag =>
+			({
+				'&': '&amp;',
+				'<': '&lt;',
+				'>': '&gt;',
+				"'": '&#39;',
+				'"': '&quot;'
+			}[tag] || tag)
+	);
+}
 
 
 

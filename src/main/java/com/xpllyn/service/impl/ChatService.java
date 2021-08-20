@@ -176,7 +176,8 @@ public class ChatService implements IChatService {
     public void readReplySend(JSONObject param, ChannelHandlerContext ctx) {
         String fromUserId = (String) param.get("fromUserId");
         String toUserId = (String) param.get("toUserId");
-        Timestamp time = Timestamp.valueOf ((String) param.get("date"));
+        //Timestamp time = Timestamp.valueOf ((String) param.get("date"));
+        Timestamp time = new Timestamp(System.currentTimeMillis());
 
         // 发送已读回执时，更新redis中的缓存，如果redis不可用，则直接更新到数据中
         int rid = Integer.parseInt(fromUserId);

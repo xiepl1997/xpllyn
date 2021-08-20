@@ -55,8 +55,12 @@ function addPerson(data) {
   var html = $('.people').html();
   $('.people').html(html + person);
 
+  var userId = $('.user').attr('name');
+
   var chat = "<div class='chat' data-chat='" + data.id + "'>" +
+      "<div id='" + userId + "_" + data.id + "_area'>" +
       "<div class='bubble you'>我们已经是好友啦，一起聊天吧！</div>" +
+      "</div>" +
       "</div>";
   var html1 = $('.chatbody').html();
   $('.chatbody').html(html1 + chat);
@@ -187,7 +191,7 @@ var ws = {
       var data = {
         "fromUserId" : fromUserId,
         "toUserId" : toUserId,
-        "date" : new Date().Format("yyyy-MM-dd HH:mm:ss"),
+        "date" : new Date().Format("yyyy-MM-dd HH:mm:ss:SSS"),
         "type" : "READ_REPLY_SENDING"
       };
       socket.send(JSON.stringify(data));
@@ -271,9 +275,9 @@ function addMessageForGroupAll(data, who) {
   var html = document.querySelector('#global_chat_area').innerHTML;
   var msg;
   if (who === 'you') {
-    msg = "<div class='bubble you'>" + data.content + "</div>";
+    msg = "<div class='bubble you'>" + escapeHTML(data.content) + "</div>";
   } else {
-    msg = "<div class='bubble me'>" + data.content + "</div>";
+    msg = "<div class='bubble me'>" + escapeHTML(data.content) + "</div>";
   }
   document.querySelector('#global_chat_area').innerHTML = html + msg;
   var chat = document.querySelector('.chat[data-chat=group]');
@@ -288,9 +292,9 @@ function addMessage(data, who) {
   var html = $(key).html();
   var msg;
   if (who === 'you') {
-    msg = "<div class='bubble you'>" + data.content + "</div>";
+    msg = "<div class='bubble you'>" + escapeHTML(data.content) + "</div>";
   } else {
-    msg = "<div class='bubble me'><div>" + data.content + "</div><div class='readStatus-unread'>未读</div></div>";
+    msg = "<div class='bubble me'><div>" + escapeHTML(data.content) + "</div><div class='readStatus-unread'>未读</div></div>";
   }
   //document.querySelector('#' + uid + '_' + data.id + '_area').innerHTML = html + msg;
   html += msg;
@@ -303,9 +307,9 @@ function addMessageForGroup(data, who) {
   var html = document.querySelector(".group_chat[data-chat='" + data.id + "']").innerHTML;
   var msg;
   if (who === 'you') {
-    msg = "<div class='bubble you'>" + data.content + "</div>";
+    msg = "<div class='bubble you'>" + escapeHTML(data.content) + "</div>";
   } else {
-    msg = "<div class='bubble me'>" + data.content + "</div>";
+    msg = "<div class='bubble me'>" + escapeHTML(data.content) + "</div>";
   }
   document.querySelector(".group_chat[data-chat='" + data.id + "']").innerHTML = html + msg;
   var chat = document.querySelector(".group_chat[data-chat='" + data.id + "']");
@@ -332,7 +336,7 @@ function updateGroupList(data) {
   if (data.content.length > 16) {
     data.content = data.content.substr(0, 16) + '...';
   }
-  document.querySelector(".group_person[data-chat='" + data.id + "'] .preview").innerHTML = data.content;
+  document.querySelector(".group_person[data-chat='" + data.id + "'] .preview").innerHTML = escapeHTML(data.content);
 }
 
 // 更新好友列表中的信息
@@ -341,7 +345,7 @@ function updateOnePersonList(data) {
   if (data.content.length > 16) {
     data.content = data.content.substr(0, 16) + '...';
   }
-  document.querySelector(".person[data-chat='" + data.id + "'] .preview").innerHTML = data.content;
+  document.querySelector(".person[data-chat='" + data.id + "'] .preview").innerHTML = escapeHTML(data.content);
 }
 
 function updateGroupListAll(data) {
@@ -349,7 +353,7 @@ function updateGroupListAll(data) {
   if (data.content.length > 16) {
     data.content = data.content.substr(0, 16) + '...';
   }
-  document.querySelector('.group_person[data-chat=group] .preview').innerHTML = data.content;
+  document.querySelector('.group_person[data-chat=group] .preview').innerHTML = escapeHTML(data.content);
 }
 
 function gotoBottom(chat) {
@@ -660,4 +664,22 @@ Date.prototype.Format = function (fmt) {
   for (var k in o)
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
   return fmt;
+}
+
+/**
+ *. 转义html(防XSS攻击)
+ *. @param str 字符串
+ */
+function escapeHTML (str) {
+  return     str.replace(
+      /[&<>'"]/g,
+      tag =>
+          ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            "'": '&#39;',
+            '"': '&quot;'
+          }[tag] || tag)
+  );
 }
