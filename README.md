@@ -28,10 +28,10 @@
 * 资源共享
 
 主页截图：  
-![image](https://github.com/xiepl1997/xpllyn/blob/master/screenshot/xpllyn1.png)
+![image](https://raw.githubusercontent.com/xiepl1997/xpllyn/master/screenshot/xpllyn1.png)
 
 github page搜索截图：  
-![image](https://github.com/xiepl1997/xpllyn/blob/master/screenshot/githubpage.jpg)
+![image](https://raw.githubusercontent.com/xiepl1997/xpllyn/master/screenshot/githubpage.jpg)
 
 聊天室截图：
-![image](https://github.com/xiepl1997/xpllyn/blob/master/screenshot/newChatRoom.PNG)
+![image](https://raw.githubusercontent.com/xiepl1997/xpllyn/master/screenshot/newChatRoom.PNG)
